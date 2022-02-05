@@ -4,13 +4,14 @@ from time import sleep
 from dotenv import dotenv_values
 import paho.mqtt.client as mqtt
 
-config = {    
+config = {
     **dotenv_values(".env.local"),
     **dotenv_values(".env")
 }
 
 BROKER_IP = config['BROKER_IP']
 BROKER_PORT = config['BROKER_PORT']
+PUBLISH_TIMEOUT = config['PUBLISH_TIMEOUT']
 TOPIC=config['TOPIC']
 
 def on_connect(client, userdata, flags, rc):
@@ -25,5 +26,5 @@ counter = 0
 while True:
     counter += 1
     client.publish(TOPIC, "test " + str(counter))
-    sleep(3)
+    sleep(PUBLISH_TIMEOUT)
 
