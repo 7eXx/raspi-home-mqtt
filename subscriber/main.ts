@@ -19,5 +19,5 @@ client.on('connect', () => {
 });
 
 client.on('message', (topic: string, message: Buffer) => {
-    console.log(message.toString());
+    console.log(`reciving: ${message.toString()}`);
 });
