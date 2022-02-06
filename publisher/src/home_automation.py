@@ -11,8 +11,6 @@ class HomeAutomation:
 
     def __init__(self):
         self.alarm_pin = DigitalInputDevice(HomePinout.SWITCH_ALARM_PIN, None, True, 0.300)
-        self.alarm_pin.when_activated = self.alarm_callback
-        self.alarm_pin.when_deactivated = self.alarm_callback
 
         self.ecu_status_pin = DigitalInputDevice(HomePinout.STATUS_ECU_PIN)
         self.ecu_toggle_pin = DigitalOutputDevice(HomePinout.TOGGLE_ECU_PIN, True, False)
@@ -33,18 +31,6 @@ class HomeAutomation:
         LoggerSingleton.info(f"system info: {system_info}")
 
         return system_info
-
-    # metodo per gestire l'evento che scatta allarme
-    def alarm_callback(self) -> None:
-        if self.is_alarm_ringing():
-            msg = "L'allarme sta suonando"
-            snt = emoji.emojize(msg + " :rotating_light:", use_aliases=True)
-        else:
-            msg = "L'allarme è rientrato"
-            snt = emoji.emojize(msg + " :thumbsup:", use_aliases=True)
-
-        LogMemoryCard.write_on_mmc(msg)
-        HomeBotSingleton.get_instance().send_message_to_list(snt)
 
     def is_alarm_ringing(self) -> bool:
         # logging alarm status
