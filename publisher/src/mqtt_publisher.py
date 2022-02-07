@@ -1,4 +1,5 @@
 from time import sleep
+from typing import Counter
 import paho.mqtt.client as mqtt
 import src.environment as environment
 
@@ -21,5 +22,6 @@ class MqttPublisher:
     def start_publishing(self):
         while True:
             self.counter += 1
-            self.client.publish(environment.TOPIC, "test " + str(self.counter))
+            print('publish: ' + str(self.counter))
+            self.client.publish(environment.TOPIC, str(self.counter))
             sleep(environment.PUBLISH_TIMEOUT)
