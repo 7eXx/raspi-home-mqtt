@@ -22,6 +22,9 @@ class MqttPublisher:
     def start_publishing(self):
         while True:
             self.counter += 1
-            print('publish: ' + str(self.counter))
+            print('publish: ' + str(self.counter)
+            
+            // TODO: retrieve system information
+
             self.client.publish(environment.TOPIC, str(self.counter))
             sleep(environment.PUBLISH_TIMEOUT)

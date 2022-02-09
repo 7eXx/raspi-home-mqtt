@@ -1,23 +1,20 @@
-from gpiozero import DigitalInputDevice, DigitalOutputDevice
 import time
-import emoji
-from src.home_pinout import HomePinout
+from gpiozero import DigitalInputDevice, DigitalOutputDevice
+from publisher.src.pinout import Pinout
 from src.logger import LoggerSingleton
 from src.system_information import SystemInformation
-from src.log_memory_card import LogMemoryCard
-from src.home_bot_singleton import HomeBotSingleton
 
-class HomeAutomation:
+class Automation:
 
     def __init__(self):
-        self.alarm_pin = DigitalInputDevice(HomePinout.SWITCH_ALARM_PIN, None, True, 0.300)
+        self.alarm_pin = DigitalInputDevice(Pinout.SWITCH_ALARM_PIN, None, True, 0.300)
 
-        self.ecu_status_pin = DigitalInputDevice(HomePinout.STATUS_ECU_PIN)
-        self.ecu_toggle_pin = DigitalOutputDevice(HomePinout.TOGGLE_ECU_PIN, True, False)
+        self.ecu_status_pin = DigitalInputDevice(Pinout.STATUS_ECU_PIN)
+        self.ecu_toggle_pin = DigitalOutputDevice(Pinout.TOGGLE_ECU_PIN, True, False)
 
-        self.gate_status_pin = DigitalInputDevice(HomePinout.STATUS_GATE_PIN)
-        self.gate_switch_pin = DigitalOutputDevice(HomePinout.SWITCH_GATE_PIN)
-        self.gate_stop_pin = DigitalOutputDevice(HomePinout.STOP_GATE_PIN)
+        self.gate_status_pin = DigitalInputDevice(Pinout.STATUS_GATE_PIN)
+        self.gate_switch_pin = DigitalOutputDevice(Pinout.SWITCH_GATE_PIN)
+        self.gate_stop_pin = DigitalOutputDevice(Pinout.STOP_GATE_PIN)
 
     def temperature(self) -> float:
         # recupero della temperatura della cpu

@@ -1,6 +1,15 @@
 import psutil
 from gpiozero import CPUTemperature
 
+class DiskInfo:
+
+    def __init__(self) -> None:
+        pass
+
+class MemoryInfo:
+    
+    def __init__(self) -> None:
+         
 
 class SystemInformation:
 
