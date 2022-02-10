@@ -3,36 +3,49 @@ from gpiozero import CPUTemperature
 
 class DiskInfo:
 
+    total = None
+    used = None
+    free = None
+    percentage = None
+
     def __init__(self) -> None:
-        pass
+        disk_usage = psutil.disk_usage('/')
+        self.total = self.__convert_byte_to_megabyte(disk_usage[0])
+        self.used = self.__convert_byte_to_megabyte(disk_usage[1])
+        self.free = self.__convert_byte_to_megabyte(disk_usage[2])
+        self.percentage = disk_usage[3]
+
+    def __convert_byte_to_megabyte(bytes_val) -> float:
+        return bytes_val / (2.0 ** 20)
 
 class MemoryInfo:
     
-    def __init__(self) -> None:
-         
+    total = None
+    available = None
+    percentage = None
+    used = None
+    free = None
 
-class SystemInformation:
-
-    def __init__(self):
-        # recupero percentuale cpu
-        cpu_per = psutil.cpu_percent()
+    def __init__(self) -> None: 
         memory = psutil.virtual_memory()
-        disk_usage = psutil.disk_usage('/')
+        self.total = self.__convert_byte_to_megabyte(memory[0])
+        self.available = self.__convert_byte_to_megabyte(memory[1])
+        self.percentage = memory[2]
+        self.used = self.__convert_byte_to_megabyte(memory[3])
+        self.free = self.__convert_byte_to_megabyte(memory[4])
 
-        self.cpu_temp = self.__get_cpu_temperature()
+    def __convert_byte_to_megabyte(bytes_val) -> float:
+        return bytes_val / (2.0 ** 20)
 
-        self.cpu_perc = cpu_per
 
-        self.tot_mem = SystemInformation.__convert_byte_to_megabyte(memory[0])
-        self.ava_mem = SystemInformation.__convert_byte_to_megabyte(memory[1])
-        self.per_mem = memory[2]
-        self.use_mem = SystemInformation.__convert_byte_to_megabyte(memory[3])
-        self.fre_mem = SystemInformation.__convert_byte_to_megabyte(memory[4])
+class CpuInfo:
 
-        self.tot_disk = SystemInformation.__convert_byte_to_megabyte(disk_usage[0])
-        self.use_disk = SystemInformation.__convert_byte_to_megabyte(disk_usage[1])
-        self.fre_disk = SystemInformation.__convert_byte_to_megabyte(disk_usage[2])
-        self.per_disk = disk_usage[3]
+    percentage = None
+    temperature = None
+
+    def __init__(self) -> None:
+        self.percentage = psutil.cpu_percent()
+        self.temperature = self.__get_cpu_temperature()
 
     def __get_cpu_temperature(self) -> str:
         # recupero della temperatura della cpu
@@ -43,7 +56,17 @@ class SystemInformation:
             temp = 0
 
         return temp
+         
 
-    @staticmethod
-    def __convert_byte_to_megabyte(bytes_val) -> float:
-        return bytes_val / (2.0 ** 20)
+class SystemInformation:
+
+    cpu = None
+    memory = None
+    disk = None
+
+    def __init__(self):
+        self.cpu = CpuInfo()
+        self.memory = MemoryInfo()
+        self.disk = DiskInfo()
+
+
