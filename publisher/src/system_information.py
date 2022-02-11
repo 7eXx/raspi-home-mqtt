@@ -7,6 +7,7 @@ class DiskInfo:
     used = None
     free = None
     percentage = None
+    unit = None
 
     def __init__(self) -> None:
         disk_usage = psutil.disk_usage('/')
@@ -14,8 +15,9 @@ class DiskInfo:
         self.used = self.__convert_byte_to_megabyte(disk_usage[1])
         self.free = self.__convert_byte_to_megabyte(disk_usage[2])
         self.percentage = disk_usage[3]
+        self.unit = 'MB'
 
-    def __convert_byte_to_megabyte(bytes_val) -> float:
+    def __convert_byte_to_megabyte(self, bytes_val) -> float:
         return bytes_val / (2.0 ** 20)
 
 class MemoryInfo:
@@ -25,6 +27,7 @@ class MemoryInfo:
     percentage = None
     used = None
     free = None
+    unit = None
 
     def __init__(self) -> None: 
         memory = psutil.virtual_memory()
@@ -33,8 +36,9 @@ class MemoryInfo:
         self.percentage = memory[2]
         self.used = self.__convert_byte_to_megabyte(memory[3])
         self.free = self.__convert_byte_to_megabyte(memory[4])
+        self.unit = 'MB'
 
-    def __convert_byte_to_megabyte(bytes_val) -> float:
+    def __convert_byte_to_megabyte(self, bytes_val) -> float:
         return bytes_val / (2.0 ** 20)
 
 
@@ -42,10 +46,12 @@ class CpuInfo:
 
     percentage = None
     temperature = None
+    unit = None
 
     def __init__(self) -> None:
         self.percentage = psutil.cpu_percent()
         self.temperature = self.__get_cpu_temperature()
+        self.unit = 'C'
 
     def __get_cpu_temperature(self) -> str:
         # recupero della temperatura della cpu
@@ -68,5 +74,10 @@ class SystemInformation:
         self.cpu = CpuInfo()
         self.memory = MemoryInfo()
         self.disk = DiskInfo()
+
+    def serialize(self):
+        # TODO: serialize object
+
+            
 
 

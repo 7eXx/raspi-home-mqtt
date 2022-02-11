@@ -1,6 +1,8 @@
 from time import sleep
 from typing import Counter
 import paho.mqtt.client as mqtt
+import json
+from src.system_information import SystemInformation
 import src.environment as environment
 
 
@@ -22,9 +24,13 @@ class MqttPublisher:
     def start_publishing(self):
         while True:
             self.counter += 1
-            print('publish: ' + str(self.counter)
+            print('publish: ' + str(self.counter))
             
-            // TODO: retrieve system information
+            system_info = SystemInformation()
 
-            self.client.publish(environment.TOPIC, str(self.counter))
+            # FIXME: system_info is a complex object not serializable
+            str_system_info = json.dumps(system_info.__dict__)
+            print(str_system_info)
+
+            #self.client.publish(environment.TOPIC, system_info)
             sleep(environment.PUBLISH_TIMEOUT)
