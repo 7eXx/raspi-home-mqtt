@@ -1,6 +1,6 @@
 import time
 from gpiozero import DigitalInputDevice, DigitalOutputDevice
-from publisher.src.pinout import Pinout
+from src.pinout import Pinout
 from src.logger import LoggerSingleton
 from src.system_information import SystemInformation
 

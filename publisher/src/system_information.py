@@ -1,4 +1,5 @@
 import psutil
+import json
 from gpiozero import CPUTemperature
 
 class DiskInfo:
@@ -19,6 +20,9 @@ class DiskInfo:
 
     def __convert_byte_to_megabyte(self, bytes_val) -> float:
         return bytes_val / (2.0 ** 20)
+
+    def serialize(self) -> str:
+        return json.dumps(self.__dict__)
 
 class MemoryInfo:
     
@@ -41,6 +45,9 @@ class MemoryInfo:
     def __convert_byte_to_megabyte(self, bytes_val) -> float:
         return bytes_val / (2.0 ** 20)
 
+    def serialize(self) -> str:
+        return json.dumps(self.__dict__)
+
 
 class CpuInfo:
 
@@ -62,6 +69,9 @@ class CpuInfo:
             temp = 0
 
         return temp
+    
+    def serialize(self) -> str:
+        return json.dumps(self.__dict__)
          
 
 class SystemInformation:
@@ -76,8 +86,4 @@ class SystemInformation:
         self.disk = DiskInfo()
 
     def serialize(self):
-        # TODO: serialize object
-
-            
-
-
+        return f'{{"cpu": {self.cpu.serialize()}, "memory": {self.memory.serialize()}, "disk": {self.disk.serialize()} }}'

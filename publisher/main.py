@@ -2,6 +2,7 @@
 from src.mqtt_publisher import MqttPublisher
 
 
-publisher = MqttPublisher()
+if __name__ == "__main__":
 
-publisher.start_publishing()
+    publisher = MqttPublisher()
+    publisher.start_publishing()
