@@ -9,7 +9,6 @@ import src.environment as environment
 class MqttPublisher:
 
     client = None
-    counter = 0
 
     def __init__(self):
         self.client = mqtt.Client()
@@ -23,14 +22,10 @@ class MqttPublisher:
 
     def start_publishing(self):
         while True:
-            self.counter += 1
-            print('publish: ' + str(self.counter))
-            
             system_info = SystemInformation()
+            system_info_serialized = system_info.serialize()
 
-            # FIXME: system_info is a complex object not serializable
-            str_system_info = json.dumps(system_info.__dict__)
-            print(str_system_info)
+            print(system_info_serialized)
+            self.client.publish(environment.TOPIC, system_info_serialized)
 
-            #self.client.publish(environment.TOPIC, system_info)
             sleep(environment.PUBLISH_TIMEOUT)

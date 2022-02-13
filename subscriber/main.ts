@@ -1,5 +1,6 @@
 import dotenv from 'dotenv';
 import mqtt from 'mqtt';
+import { SystemInformation } from './src/system-information';
 
 dotenv.config();
 
@@ -19,5 +20,6 @@ client.on('connect', () => {
 });
 
 client.on('message', (topic: string, message: Buffer) => {
-    console.log(`reciving: ${message.toString()}`);
+    const systemInformation: SystemInformation = JSON.parse(message.toString());
+    console.log(systemInformation);
 });
