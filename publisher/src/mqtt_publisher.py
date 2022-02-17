@@ -1,7 +1,5 @@
 from time import sleep
-from typing import Counter
 import paho.mqtt.client as mqtt
-import json
 from src.system_information import SystemInformation
 import src.environment as environment
 

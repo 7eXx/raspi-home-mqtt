@@ -1,5 +1,5 @@
 
-from dis import dis
+from src.automation import Automation
 from src.system_information import DiskInfo, MemoryInfo, CpuInfo, SystemInformation
 
 disk = DiskInfo()
@@ -17,3 +17,7 @@ print(cpu.serialize())
 system_info = SystemInformation()
 
 print(system_info.serialize())
+
+automation = Automation()
+
+print(automation.serialize())

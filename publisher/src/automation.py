@@ -6,6 +6,7 @@ from src.system_information import SystemInformation
 
 class Automation:
 
+
     def __init__(self):
         self.alarm_pin = DigitalInputDevice(Pinout.SWITCH_ALARM_PIN, None, True, 0.300)
 
@@ -16,13 +17,16 @@ class Automation:
         self.gate_switch_pin = DigitalOutputDevice(Pinout.SWITCH_GATE_PIN)
         self.gate_stop_pin = DigitalOutputDevice(Pinout.STOP_GATE_PIN)
 
-    def temperature(self) -> float:
-        # recupero della temperatura della cpu
-        system_info = SystemInformation()
+    def serialize(self) -> str: 
+        output = f"{{ alarm: {self.is_alarm_ringing()}, "
+        output += f"ecu: {self.ecu_status()}, "
+        output += f"gate: {self.gate_status()}, "
+        output += f"system_info: {self.system_info().serialize()} }}"
 
-        return system_info.cpu_temp
+        return output
 
-    def system_info(self):
+
+    def system_info(self) -> SystemInformation:
         system_info = SystemInformation()
 
         LoggerSingleton.info(f"system info: {system_info}")
@@ -59,7 +63,7 @@ class Automation:
         return self.ecu_status()
 
     @staticmethod
-    def is_ecu_state_mode( prev_state, new_state):
+    def is_ecu_state_mode(prev_state, new_state):
         return new_state == prev_state
 
     def anti_panic_mode(self):
