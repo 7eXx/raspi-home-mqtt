@@ -17,6 +17,7 @@ const client = mqtt.connect(brokerInfo.hostname, { port: brokerInfo.port });
 
 client.on('connect', () => {
     client.subscribe(brokerInfo.topic);
+    console.log('broker connected');
 });
 
 client.on('message', (topic: string, message: Buffer) => {
