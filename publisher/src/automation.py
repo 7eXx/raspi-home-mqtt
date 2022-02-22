@@ -18,9 +18,9 @@ class Automation:
         self.gate_stop_pin = DigitalOutputDevice(Pinout.STOP_GATE_PIN)
 
     def serialize(self) -> str: 
-        output = f"{{ alarm: {self.is_alarm_ringing()}, "
-        output += f"ecu: {self.ecu_status()}, "
-        output += f"gate: {self.gate_status()}, "
+        output = f"{{ alarm: {int(self.is_alarm_ringing())}, "
+        output += f"ecu: {int(self.ecu_status())}, "
+        output += f"gate: {int(self.gate_status())}, "
         output += f"system_info: {self.system_info().serialize()} }}"
 
         return output
@@ -29,13 +29,9 @@ class Automation:
     def system_info(self) -> SystemInformation:
         system_info = SystemInformation()
 
-        LoggerSingleton.info(f"system info: {system_info}")
-
         return system_info
 
     def is_alarm_ringing(self) -> bool:
-        # logging alarm status
-        LoggerSingleton.info(f"Stato Alarm: {self.alarm_pin.value}")
         # check alarm
         if not self.alarm_pin.value:
             return True
@@ -44,8 +40,6 @@ class Automation:
 
     # funzione per recuperare lo status della centralina
     def ecu_status(self) -> bool:
-        # logging ecu state
-        LoggerSingleton.info(f"Stato ECU: {self.ecu_status_pin.value}")
         # check ecu state
         if self.ecu_status_pin.value:
             return True
@@ -77,8 +71,6 @@ class Automation:
 
     # metodo rpc per recuperare lo stato del cancello (TRUE=aperto, FALSE=chiuso)
     def gate_status(self) -> bool:
-        LoggerSingleton.info(f'Gate status: {self.gate_status_pin.value}')
-
         if self.gate_status_pin.value:
             return True
         else:
