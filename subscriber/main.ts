@@ -1,6 +1,7 @@
 import dotenv from 'dotenv';
 import mqtt from 'mqtt';
-import { SystemInformation } from './src/system-information';
+import { Automation } from './src/automation-datastructure';
+import { SystemInformation } from './src/system-information-datastructure';
 
 dotenv.config();
 
@@ -21,6 +22,6 @@ client.on('connect', () => {
 });
 
 client.on('message', (topic: string, message: Buffer) => {
-    const systemInformation: SystemInformation = JSON.parse(message.toString());
-    console.log(systemInformation);
+    const automation: Automation = JSON.parse(message.toString());
+    console.log(automation);
 });

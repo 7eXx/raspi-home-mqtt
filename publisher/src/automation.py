@@ -18,10 +18,10 @@ class Automation:
         self.gate_stop_pin = DigitalOutputDevice(Pinout.STOP_GATE_PIN)
 
     def serialize(self) -> str: 
-        output = f"{{ alarm: {int(self.is_alarm_ringing())}, "
-        output += f"ecu: {int(self.ecu_status())}, "
-        output += f"gate: {int(self.gate_status())}, "
-        output += f"system_info: {self.system_info().serialize()} }}"
+        output = f'{{ "alarm": {int(self.is_alarm_ringing())}, '
+        output += f'"ecu": {int(self.ecu_status())}, '
+        output += f'"gate": {int(self.gate_status())}, '
+        output += f'"system_info": {self.system_info().serialize()} }}'
 
         return output
 
