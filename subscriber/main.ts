@@ -1,7 +1,6 @@
 import dotenv from 'dotenv';
 import mqtt from 'mqtt';
 import { Automation } from './src/automation-datastructure';
-import { SystemInformation } from './src/system-information-datastructure';
 
 dotenv.config();
 

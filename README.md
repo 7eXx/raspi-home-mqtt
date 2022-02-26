@@ -3,6 +3,9 @@ This project aims to create a middleware with mqtt using mosquito.
 A client periodically publish some informations in a topic.
 A secondary client listens for eventually new update in the previous topic.
 
+## Middleware
+
+
 ## Publisher
 It a python project stored in ***publisher*** folder:  
 
