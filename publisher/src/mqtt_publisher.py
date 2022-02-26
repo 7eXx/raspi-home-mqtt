@@ -7,18 +7,20 @@ import src.environment as environment
 class MqttPublisher:
 
     automation = None
-    client = None
+    publisher = None
+    subscriber = None
 
     def __init__(self):
         self.automation = Automation()
-        self.__create_mqtt_client()
+        self.__create_mqtt_publisher()
+        self.__create_mqtt_subscriber()
         
 
-    def __create_mqtt_client(self) -> None:
-        self.client = mqtt.Client()
-        self.client.on_connect = MqttPublisher.__on_connect
-        self.client.connect(environment.BROKER_IP, int(environment.BROKER_PORT), 60)
-        self.client.loop_start
+    def __create_mqtt_publisher(self) -> None:
+        self.publisher = mqtt.Client()
+        self.publisher.on_connect = MqttPublisher.__on_connect
+        self.publisher.connect(environment.BROKER_IP, int(environment.BROKER_PORT), 60)
+        self.publisher.loop_start
 
     @staticmethod
     def __on_connect(client, userdata, flags, rc) -> None:
@@ -29,6 +31,6 @@ class MqttPublisher:
             automation_info_serialized = self.automation.serialize()
 
             print(automation_info_serialized)
-            self.client.publish(environment.TOPIC, automation_info_serialized)
+            self.publisher.publish(environment.TOPIC, automation_info_serialized)
 
             sleep(environment.PUBLISH_TIMEOUT)
