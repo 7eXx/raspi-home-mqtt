@@ -1,5 +1,7 @@
 import dotenv from 'dotenv';
 import mqtt from 'mqtt';
+import { Automation } from './src/automation-datastructure';
+import { SystemInformation } from './src/system-information-datastructure';
 
 dotenv.config();
 
@@ -16,8 +18,10 @@ const client = mqtt.connect(brokerInfo.hostname, { port: brokerInfo.port });
 
 client.on('connect', () => {
     client.subscribe(brokerInfo.topic);
+    console.log('broker connected');
 });
 
 client.on('message', (topic: string, message: Buffer) => {
-    console.log(`reciving: ${message.toString()}`);
+    const automation: Automation = JSON.parse(message.toString());
+    console.log(automation);
 });

@@ -1,40 +1,37 @@
-from gpiozero import DigitalInputDevice, DigitalOutputDevice
 import time
-import emoji
-from src.home_pinout import HomePinout
+from gpiozero import DigitalInputDevice, DigitalOutputDevice
+from src.pinout import Pinout
 from src.logger import LoggerSingleton
 from src.system_information import SystemInformation
-from src.log_memory_card import LogMemoryCard
-from src.home_bot_singleton import HomeBotSingleton
 
-class HomeAutomation:
+class Automation:
+
 
     def __init__(self):
-        self.alarm_pin = DigitalInputDevice(HomePinout.SWITCH_ALARM_PIN, None, True, 0.300)
+        self.alarm_pin = DigitalInputDevice(Pinout.SWITCH_ALARM_PIN, None, True, 0.300)
 
-        self.ecu_status_pin = DigitalInputDevice(HomePinout.STATUS_ECU_PIN)
-        self.ecu_toggle_pin = DigitalOutputDevice(HomePinout.TOGGLE_ECU_PIN, True, False)
+        self.ecu_status_pin = DigitalInputDevice(Pinout.STATUS_ECU_PIN)
+        self.ecu_toggle_pin = DigitalOutputDevice(Pinout.TOGGLE_ECU_PIN, True, False)
 
-        self.gate_status_pin = DigitalInputDevice(HomePinout.STATUS_GATE_PIN)
-        self.gate_switch_pin = DigitalOutputDevice(HomePinout.SWITCH_GATE_PIN)
-        self.gate_stop_pin = DigitalOutputDevice(HomePinout.STOP_GATE_PIN)
+        self.gate_status_pin = DigitalInputDevice(Pinout.STATUS_GATE_PIN)
+        self.gate_switch_pin = DigitalOutputDevice(Pinout.SWITCH_GATE_PIN)
+        self.gate_stop_pin = DigitalOutputDevice(Pinout.STOP_GATE_PIN)
 
-    def temperature(self) -> float:
-        # recupero della temperatura della cpu
+    def serialize(self) -> str: 
+        output = f'{{ "alarm": {int(self.is_alarm_ringing())}, '
+        output += f'"ecu": {int(self.ecu_status())}, '
+        output += f'"gate": {int(self.gate_status())}, '
+        output += f'"system_info": {self.system_info().serialize()} }}'
+
+        return output
+
+
+    def system_info(self) -> SystemInformation:
         system_info = SystemInformation()
-
-        return system_info.cpu_temp
-
-    def system_info(self):
-        system_info = SystemInformation()
-
-        LoggerSingleton.info(f"system info: {system_info}")
 
         return system_info
 
     def is_alarm_ringing(self) -> bool:
-        # logging alarm status
-        LoggerSingleton.info(f"Stato Alarm: {self.alarm_pin.value}")
         # check alarm
         if not self.alarm_pin.value:
             return True
@@ -43,8 +40,6 @@ class HomeAutomation:
 
     # funzione per recuperare lo status della centralina
     def ecu_status(self) -> bool:
-        # logging ecu state
-        LoggerSingleton.info(f"Stato ECU: {self.ecu_status_pin.value}")
         # check ecu state
         if self.ecu_status_pin.value:
             return True
@@ -62,7 +57,7 @@ class HomeAutomation:
         return self.ecu_status()
 
     @staticmethod
-    def is_ecu_state_mode( prev_state, new_state):
+    def is_ecu_state_mode(prev_state, new_state):
         return new_state == prev_state
 
     def anti_panic_mode(self):
@@ -76,8 +71,6 @@ class HomeAutomation:
 
     # metodo rpc per recuperare lo stato del cancello (TRUE=aperto, FALSE=chiuso)
     def gate_status(self) -> bool:
-        LoggerSingleton.info(f'Gate status: {self.gate_status_pin.value}')
-
         if self.gate_status_pin.value:
             return True
         else:
