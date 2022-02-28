@@ -3,7 +3,6 @@ import paho.mqtt.client as mqtt
 from src.automation import Automation
 import src.environment as environment
 
-
 class MqttPublisher:
 
     automation = None
@@ -17,18 +16,26 @@ class MqttPublisher:
 
     def __create_mqtt_status_publisher(self) -> None:
         self.status_publisher = mqtt.Client()
-        self.status_publisher.on_connect = MqttPublisher.__on_connect
+        self.status_publisher.on_connect = self.__on_connect_status
         self.status_publisher.connect(environment.BROKER_IP, int(environment.BROKER_PORT), 60)
-        self.status_publisher.loop_start
+        self.status_publisher.loop_start()
 
     def __create_mqtt_command_subscriber(self) -> None:
-        # TODO: create the command subscriber client to listen in the topic "mqtt/command"
-        # define the on message function to parse message and perform proper automation action
-        pass
+        self.command_subscriber = mqtt.Client()
+        self.command_subscriber.on_connect = self.__on_connect_command
+        self.command_subscriber.on_message = self.__on_message_command
+        self.command_subscriber.connect(environment.BROKER_IP, int(environment.BROKER_PORT), 60)
+        self.command_subscriber.loop_forever()
 
-    @staticmethod
-    def __on_connect(client, userdata, flags, rc) -> None:
-        print("Connected with result code: " + str(rc))
+    def __on_connect_status(self, client, userdata, flags, rc) -> None:
+        print("Status publisher connected with result code: " + str(rc))
+
+    def __on_connect_command(self, client, userdata, flags, rc) -> None:
+        print("Command subscriber connected with result code: " + str(rc))
+        self.command_subscriber.subscribe(environment.COMMAND_TOPIC)
+
+    def __on_message_command(self, client, userdata, msg) -> None:
+        print(msg.topic + ": " + str(msg.payload))
 
     def start_publishing(self):
         while True:
