@@ -25,7 +25,7 @@ class MqttPublisher:
         self.command_subscriber.on_connect = self.__on_connect_command
         self.command_subscriber.on_message = self.__on_message_command
         self.command_subscriber.connect(environment.BROKER_IP, int(environment.BROKER_PORT), 60)
-        self.command_subscriber.loop_forever()
+        self.command_subscriber.loop_start()
 
     def __on_connect_status(self, client, userdata, flags, rc) -> None:
         print("Status publisher connected with result code: " + str(rc))
@@ -42,6 +42,6 @@ class MqttPublisher:
             automation_info_serialized = self.automation.serialize()
 
             print(automation_info_serialized)
-            self.publisher.publish(environment.TOPIC, automation_info_serialized)
+            self.status_publisher.publish(environment.STATUS_TOPIC, automation_info_serialized)
 
             sleep(environment.PUBLISH_TIMEOUT)
