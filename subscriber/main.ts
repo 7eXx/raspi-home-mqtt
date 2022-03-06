@@ -1,26 +1,26 @@
 import dotenv from 'dotenv';
-import mqtt from 'mqtt';
-import { Automation } from './src/automation-datastructure';
+import StatusClientBroker from './src/status-client-broker';
+import { BrokerInfo } from './src/broker-info';
+import CommandClientBroker from './src/command-client-broker';
 
 dotenv.config();
 
-const brokerInfo = {
+const statusBrokerInfo: BrokerInfo = {
     hostname: `mqtt://${process.env.BROKER_IP}`,
     port: +process.env.BROKER_PORT,
-    timeout: process.env.PUBLISH_TIMEOUT,
-    topic: process.env.TOPIC,
+    timeout: +process.env.PUBLISH_TIMEOUT,
+    topic: process.env.STATUS_TOPIC,
 };
 
-console.log(brokerInfo);
+const commandBrokerInfo: BrokerInfo = {
+    hostname: `mqtt://${process.env.BROKER_IP}`,
+    port: +process.env.BROKER_PORT,
+    timeout: +process.env.PUBLISH_TIMEOUT,
+    topic: process.env.COMMAND_TOPIC,
+};
 
-const client = mqtt.connect(brokerInfo.hostname, { port: brokerInfo.port });
+const statusClient = new StatusClientBroker(statusBrokerInfo);
+statusClient.createClient();
 
-client.on('connect', () => {
-    client.subscribe(brokerInfo.topic);
-    console.log('broker connected');
-});
-
-client.on('message', (topic: string, message: Buffer) => {
-    const automation: Automation = JSON.parse(message.toString());
-    console.log(automation);
-});
+const commandClient = new CommandClientBroker(commandBrokerInfo);
+commandClient.createClient();
