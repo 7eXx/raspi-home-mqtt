@@ -15,7 +15,7 @@ export default class CommandClientBroker {
 
         this.client.on('connect', () => {
             console.log('broker connected');
-            const command = '{ "alarm": 1 }';
+            const command = '{ "command": "alarm", value: 1 }';
             this.client.publish(this.brokerInfo.topic, command);
         });
     }

@@ -19,8 +19,8 @@ const commandBrokerInfo: BrokerInfo = {
     topic: process.env.COMMAND_TOPIC,
 };
 
-const statusClient = new StatusClientBroker(statusBrokerInfo);
-statusClient.createClient();
+// const statusClient = new StatusClientBroker(statusBrokerInfo);
+// statusClient.createClient();
 
 const commandClient = new CommandClientBroker(commandBrokerInfo);
 commandClient.createClient();
