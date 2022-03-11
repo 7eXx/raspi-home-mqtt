@@ -24,7 +24,3 @@ class CommandSubscriber:
 
     def __on_message_command(self, client, userdata, msg) -> None:
         print(msg.topic + ": " + str(msg.payload))
-
-    def start_loop(self):
-        while True:
-            sleep(environment.PUBLISH_TIMEOUT)
