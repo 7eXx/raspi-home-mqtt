@@ -9,7 +9,6 @@ if __name__ == "__main__":
     automation = Automation()
 
     command_subscriber = CommandSubscriber(automation)
-    command_subscriber.start_loop()
 
-    # status_publisher = StatusPublisher(automation)
-    # status_publisher.start_publishing()
+    status_publisher = StatusPublisher(automation)
+    status_publisher.start_publishing()
