@@ -1,5 +1,6 @@
 import mqtt, { MqttClient } from 'mqtt';
 import { BrokerInfo } from './broker-info';
+import { Command } from './command';
 
 export default class CommandClientBroker {
     private client: MqttClient;
@@ -14,9 +15,15 @@ export default class CommandClientBroker {
         });
 
         this.client.on('connect', () => {
-            console.log('broker connected');
-            const command = '{ "command": "alarm", value: 1 }';
-            this.client.publish(this.brokerInfo.topic, command);
+            console.log('command broker connected');
         });
+    }
+
+    public sendCommand(command: Command) {
+        if (!this.client.connected) {
+            return;
+        }
+
+        this.client.publish(this.brokerInfo.topic, JSON.stringify(command));
     }
 }

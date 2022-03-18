@@ -29,6 +29,7 @@
         "max-classes-per-file": "off",
         "no-plusplus": "off",
         "no-else-return": "off",
+        "no-useless-return": "off",
         "max-len": [
             "error",
             {

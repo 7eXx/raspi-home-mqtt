@@ -19,8 +19,22 @@ const commandBrokerInfo: BrokerInfo = {
     topic: process.env.COMMAND_TOPIC,
 };
 
-// const statusClient = new StatusClientBroker(statusBrokerInfo);
-// statusClient.createClient();
+const statusClient = new StatusClientBroker(statusBrokerInfo);
+statusClient.createClient();
 
 const commandClient = new CommandClientBroker(commandBrokerInfo);
 commandClient.createClient();
+
+setTimeout(() => {
+    commandClient.sendCommand({
+        command: 'alarm',
+        value: 1,
+    });
+}, 1000);
+
+setTimeout(() => {
+    commandClient.sendCommand({
+        command: 'gate',
+        value: 1,
+    });
+}, 3000);

@@ -1,5 +1,7 @@
 from time import sleep
+from click import command
 import paho.mqtt.client as mqtt
+from src.command import Command
 import src.environment as environment
 
 class CommandSubscriber: 
@@ -17,10 +19,19 @@ class CommandSubscriber:
         self.command_subscriber.on_message = self.__on_message_command
         self.command_subscriber.connect(environment.BROKER_IP, int(environment.BROKER_PORT), 60)
         self.command_subscriber.loop_start()
+    
+    def start_infinite_loop(self) -> None:
+        while True:
+            sleep(environment.PUBLISH_TIMEOUT)
 
     def __on_connect_command(self, client, userdata, flags, rc) -> None:
         print("Command subscriber connected with result code: " + str(rc))
         self.command_subscriber.subscribe(environment.COMMAND_TOPIC)
 
-    def __on_message_command(self, client, userdata, msg) -> None:
-        print(msg.topic + ": " + str(msg.payload))
+    def __on_message_command(self, client, userdata, msg) -> None:        
+        command = Command()
+        command.parse_payload(msg.payload)
+
+        print("command: " + command.command)
+        print("value: " + str(command.value))
+
