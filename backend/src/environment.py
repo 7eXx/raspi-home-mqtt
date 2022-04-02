@@ -8,4 +8,6 @@ config = {
 BROKER_IP = config['BROKER_IP']
 BROKER_PORT = config['BROKER_PORT']
 PUBLISH_TIMEOUT = int(config['PUBLISH_TIMEOUT'])
-TOPIC=config['TOPIC']
+STATUS_TOPIC=config['STATUS_TOPIC']
+COMMAND_TOPIC=config['COMMAND_TOPIC']
+

@@ -22,6 +22,20 @@
         "no-console": "off",
         "indent": ["error", 4],
         "no-unused-vars": "off",
+        "no-useless-constructor": "off",
+        "no-empty-function": "off",
+        "padded-blocks": "off",
+        "class-methods-use-this": "off",
+        "max-classes-per-file": "off",
+        "no-plusplus": "off",
+        "no-else-return": "off",
+        "no-useless-return": "off",
+        "max-len": [
+            "error",
+            {
+                "code" : 120
+            }
+        ],
         "import/extensions": [
             "error",
             "ignorePackages",
