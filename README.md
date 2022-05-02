@@ -4,7 +4,11 @@ A client periodically publish some informations in a topic.
 A secondary client listens for eventually new update in the previous topic.
 
 ## Middleware
-
+It is made by a Docker file which uses an mqtt-mosquitto middleware based on Debian.
+To run it, just use the docker-compose file:
+```
+$ docker-compose up -d
+```
 
 ## Publisher
 It a python project stored in ***publisher*** folder:  
@@ -28,7 +32,7 @@ Execute the following command to start the publisher:
 $ python src/publisher/main.py
 ```
 
-# Subscriber:
+## Subscriber:
 It a javascript project stored in ***subscriber*** folder:  
 
 Install all dependencies with:
