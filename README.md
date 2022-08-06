@@ -10,8 +10,8 @@ To run it, just use the docker-compose file:
 $ docker-compose up -d
 ```
 
-## Publisher
-It a python project stored in ***publisher*** folder:  
+## Backend
+It a python project stored in ***backend*** folder, so move in to this directory.
 
 Using the following command to create a virtual environment in python:
 ```
@@ -26,14 +26,18 @@ Install all dependencies:
 ```
 $ pip install -r requirements.txt
 ```
-
-Execute the following command to start the publisher:
+Before execute the main script, it's better to mock the gpio otherwise execution will fail.
 ```
-$ python src/publisher/main.py
+export GPIOZERO_PIN_FACTORY=mock
 ```
 
-## Subscriber:
-It a javascript project stored in ***subscriber*** folder:  
+Execute the following command to start the backend:
+```
+$ python main.py
+```
+
+## Client test:
+It a javascript project stored in ***client*** folder:  
 
 Install all dependencies with:
 ```

@@ -1,5 +1,4 @@
 from time import sleep
-from click import command
 import paho.mqtt.client as mqtt
 from src.command import Command
 import src.environment as environment
