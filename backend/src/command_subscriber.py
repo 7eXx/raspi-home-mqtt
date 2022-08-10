@@ -1,3 +1,4 @@
+import logging
 from time import sleep
 import paho.mqtt.client as mqtt
 from src.command import Command
@@ -24,13 +25,13 @@ class CommandSubscriber:
             sleep(environment.PUBLISH_TIMEOUT)
 
     def __on_connect_command(self, client, userdata, flags, rc) -> None:
-        print("Command subscriber connected with result code: " + str(rc))
+        logging.debug("Command subscriber connected with result code: " + str(rc))
         self.command_subscriber.subscribe(environment.COMMAND_TOPIC)
 
     def __on_message_command(self, client, userdata, msg) -> None:        
         command = Command()
         command.parse_payload(msg.payload)
 
-        print("command: " + command.command)
-        print("value: " + str(command.value))
+        logging.debug("command: " + command.command)
+        logging.debug("value: " + str(command.value))
 

@@ -1,4 +1,5 @@
 from time import sleep
+import logging
 import paho.mqtt.client as mqtt
 import src.environment as environment
 
@@ -19,13 +20,13 @@ class StatusPublisher:
         self.status_publisher.loop_start()
 
     def __on_connect_status(self, client, userdata, flags, rc) -> None:
-        print("Status publisher connected with result code: " + str(rc))
+        logging.debug("Status publisher connected with result code: " + str(rc))
 
     def start_publishing(self):
         while True:
             automation_info_serialized = self.automation.serialize()
 
-            print(automation_info_serialized)
+            logging.debug(automation_info_serialized)
             self.status_publisher.publish(environment.STATUS_TOPIC, automation_info_serialized)
 
             sleep(environment.PUBLISH_TIMEOUT)
