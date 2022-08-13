@@ -14,7 +14,7 @@ class CommandSubscriber:
         self.__create_command_client_subscriber()
 
     def __create_command_client_subscriber(self) -> None:
-        self.command_subscriber = mqtt.Client()
+        self.command_subscriber = mqtt.Client(transport="websockets")
         self.command_subscriber.on_connect = self.__on_connect_command
         self.command_subscriber.on_message = self.__on_message_command
         self.command_subscriber.connect(environment.BROKER_IP, int(environment.BROKER_PORT), 60)

@@ -1,4 +1,3 @@
-
 import logging
 from src.automation import Automation
 from src.command_subscriber import CommandSubscriber
