@@ -15,11 +15,11 @@ It a python project stored in ***backend*** folder, so move in to this directory
 
 Using the following command to create a virtual environment in python:
 ```
-$ virtualenv venv
+$ python3 -m venv venv
 ```
 Activate the virtual environment:
 ```
-$ ./venv/bin/activate
+$ source venv/bin/activate
 ```
 Install all dependencies:
 

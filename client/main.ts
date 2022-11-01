@@ -8,7 +8,7 @@ dotenv.config();
 const statusBrokerInfo: BrokerInfo = {
     hostname: `ws://${process.env.BROKER_IP}`,
     port: +process.env.BROKER_PORT,
-    timeout: +process.env.PUBLISH_TIMEOUT,
+    timeout: +process.env.PUBLISH_TIMEOUT * 1000,
     topic: process.env.STATUS_TOPIC,
 };
 
