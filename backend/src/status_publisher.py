@@ -14,7 +14,7 @@ class StatusPublisher:
         self.__create_status_client_publisher()
 
     def __create_status_client_publisher(self) -> None:
-        self.status_publisher = mqtt.Client(transport="websockets")
+        self.status_publisher = mqtt.Client(client_id=environment.CLIENT_ID, transport="websockets")
         self.status_publisher.on_connect = self.__on_connect_status
         self.status_publisher.connect(environment.BROKER_IP, int(environment.BROKER_PORT), 60)
         self.status_publisher.loop_start()

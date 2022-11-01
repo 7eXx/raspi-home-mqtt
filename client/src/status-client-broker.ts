@@ -10,6 +10,7 @@ export default class StatusClientBroker {
 
     public createClient(): void {
         this.client = mqtt.connect(this.brokerInfo.hostname, {
+            clientId: this.brokerInfo.clientId,
             port: this.brokerInfo.port,
             connectTimeout: this.brokerInfo.timeout,
         });
