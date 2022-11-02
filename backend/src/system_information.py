@@ -52,26 +52,36 @@ class MemoryInfo:
 class CpuInfo:
 
     percentage = None
+    min_temp = None
+    max_temp = None
     temperature = None
     unit = None
 
     def __init__(self) -> None:
         self.percentage = psutil.cpu_percent()
-        self.temperature = self.__get_cpu_temperature()
-        self.unit = 'C'
+        self.__retrieve_cpu_temperature()
+        self.unit = '°C'
 
-    def __get_cpu_temperature(self) -> str:
+    def __retrieve_cpu_temperature(self) -> None:
         # recupero della temperatura della cpu
         try:
             cpu = CPUTemperature()
-            temp = cpu.temperature
+            self.min_temp = cpu.min_temp
+            self.max_temp = cpu.max_temp
+            self.temperature = cpu.temperature
         except FileNotFoundError as err:
-            temp = 0
-
-        return temp
+            self.min_temp = 0
+            self.max_temp = 0
+            self.temperature = 0
     
     def serialize(self) -> str:
-        return json.dumps(self.__dict__)
+        output = f'{{ "percentage": {float(self.percentage)}, '
+        output += f'"minTemp": {float(self.min_temp)}, '
+        output += f'"maxTemp": {float(self.max_temp)}, '
+        output += f'"temperature": {float(self.temperature)}, '
+        output += f'"unit": "{self.unit}" }}'
+
+        return output
          
 
 class SystemInformation:
