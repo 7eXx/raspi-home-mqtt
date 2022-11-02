@@ -9,11 +9,10 @@ class Automation:
 
     def __init__(self):
         self.alarm_pin = DigitalInputDevice(Pinout.SWITCH_ALARM_PIN, None, True, 0.300)
-
         self.ecu_status_pin = DigitalInputDevice(Pinout.STATUS_ECU_PIN)
-        self.ecu_toggle_pin = DigitalOutputDevice(Pinout.TOGGLE_ECU_PIN, True, False)
-
         self.gate_status_pin = DigitalInputDevice(Pinout.STATUS_GATE_PIN)
+        
+        self.ecu_toggle_pin = DigitalOutputDevice(Pinout.TOGGLE_ECU_PIN, True, False)
         self.gate_switch_pin = DigitalOutputDevice(Pinout.SWITCH_GATE_PIN)
         self.gate_stop_pin = DigitalOutputDevice(Pinout.STOP_GATE_PIN)
 
@@ -21,7 +20,7 @@ class Automation:
         output = f'{{ "alarm": {int(self.is_alarm_ringing())}, '
         output += f'"ecu": {int(self.ecu_status())}, '
         output += f'"gate": {int(self.gate_status())}, '
-        output += f'"system_info": {self.system_info().serialize()} }}'
+        output += f'"systemInfo": {self.system_info().serialize()} }}'
 
         return output
 

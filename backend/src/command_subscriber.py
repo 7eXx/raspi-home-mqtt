@@ -1,5 +1,5 @@
+import logging
 from time import sleep
-from click import command
 import paho.mqtt.client as mqtt
 from src.command import Command
 import src.environment as environment
@@ -14,7 +14,7 @@ class CommandSubscriber:
         self.__create_command_client_subscriber()
 
     def __create_command_client_subscriber(self) -> None:
-        self.command_subscriber = mqtt.Client()
+        self.command_subscriber = mqtt.Client(transport="websockets")
         self.command_subscriber.on_connect = self.__on_connect_command
         self.command_subscriber.on_message = self.__on_message_command
         self.command_subscriber.connect(environment.BROKER_IP, int(environment.BROKER_PORT), 60)
@@ -25,13 +25,13 @@ class CommandSubscriber:
             sleep(environment.PUBLISH_TIMEOUT)
 
     def __on_connect_command(self, client, userdata, flags, rc) -> None:
-        print("Command subscriber connected with result code: " + str(rc))
+        logging.debug("Command subscriber connected with result code: " + str(rc))
         self.command_subscriber.subscribe(environment.COMMAND_TOPIC)
 
     def __on_message_command(self, client, userdata, msg) -> None:        
         command = Command()
         command.parse_payload(msg.payload)
 
-        print("command: " + command.command)
-        print("value: " + str(command.value))
+        logging.debug("command: " + command.command)
+        logging.debug("value: " + str(command.value))
 
