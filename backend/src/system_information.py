@@ -12,14 +12,21 @@ class DiskInfo:
 
     def __init__(self) -> None:
         disk_usage = psutil.disk_usage('/')
-        self.total = self.__convert_byte_to_megabyte(disk_usage[0])
-        self.used = self.__convert_byte_to_megabyte(disk_usage[1])
-        self.free = self.__convert_byte_to_megabyte(disk_usage[2])
+        self.unit = 'GB'
+        self.total = self.__convert_byte_to_unit(disk_usage[0])
+        self.used = self.__convert_byte_to_unit(disk_usage[1])
+        self.free = self.__convert_byte_to_unit(disk_usage[2])
         self.percentage = disk_usage[3]
-        self.unit = 'MB'
 
-    def __convert_byte_to_megabyte(self, bytes_val) -> float:
-        return bytes_val / (2.0 ** 20)
+    def __convert_byte_to_unit(self, bytes_val) -> float:
+        unit_power = 20
+        if self.unit == 'GB':
+            unit_power = 30
+        
+        return self.__convert_byte_with_power(bytes_val, unit_power)
+
+    def __convert_byte_with_power(self, bytes_val, power: int) -> float:
+        return round(bytes_val / (2.0 ** power), 2)
 
     def serialize(self) -> str:
         return json.dumps(self.__dict__)
@@ -43,7 +50,7 @@ class MemoryInfo:
         self.unit = 'MB'
 
     def __convert_byte_to_megabyte(self, bytes_val) -> float:
-        return bytes_val / (2.0 ** 20)
+        return round(bytes_val / (2.0 ** 20), 2)
 
     def serialize(self) -> str:
         return json.dumps(self.__dict__)
