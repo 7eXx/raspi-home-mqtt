@@ -1,0 +1,6 @@
+.vscode
+venv
+.gitignore
+Dockerfile
+src/__pycache__
+tests.py

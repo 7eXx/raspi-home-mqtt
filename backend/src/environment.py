@@ -1,8 +1,8 @@
 from dotenv import dotenv_values
 
 config = {
-    **dotenv_values(".env.local"),
-    **dotenv_values(".env")
+    **dotenv_values(".env"),
+    **dotenv_values(".env.local")
 }
 
 BROKER_IP = config['BROKER_IP']
