@@ -8,7 +8,7 @@ class Automation:
 
 
     def __init__(self):
-        self.alarm_pin = DigitalInputDevice(Pinout.SWITCH_ALARM_PIN, None, True, 0.300)
+        self.alarm_pin = DigitalInputDevice(Pinout.SWITCH_ALARM_PIN, True, None, 0.300)
         self.ecu_status_pin = DigitalInputDevice(Pinout.STATUS_ECU_PIN)
         self.gate_status_pin = DigitalInputDevice(Pinout.STATUS_GATE_PIN)
         
