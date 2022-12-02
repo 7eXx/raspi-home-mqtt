@@ -28,7 +28,7 @@ class CommandSubscriber:
         logging.debug("Command subscriber connected with result code: " + str(rc))
         self.command_subscriber.subscribe(environment.COMMAND_TOPIC)
 
-    def __on_message_command(self, client, userdata, msg) -> None:        
+    def __on_message_command(self, client, userdata, msg) -> None: 
         command = Command()
         command.parse_payload(msg.payload)
 
