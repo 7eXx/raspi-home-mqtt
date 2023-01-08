@@ -13,30 +13,44 @@ parser.add_argument('alarm_ecu_set')
 parser.add_argument('gate_ecu_set')
 parser.add_argument('gate_stop_set')
 
-
 class CommandController(Resource):
+    __automation: Automation = None
+
+    def __init__(self, **kwargs) -> None:
+        super().__init__()
+        self.__automation = kwargs['automation']
+
     def put(self):
         args = parser.parse_args()
-        self.__abort_if_command_not_valid(args)
 
-        return None, 201
-
-    def __abort_if_command_not_valid(self, args):
-        if args['alarm_ecu_set'] == None and \
-            args['gate_ecu_set'] == None and \
-            args['gate_stop_set'] == None:
+        if self.is_command_ecu_set(args):
+            result = self.__automation.ecu_toggle()
+        elif self.is_command_gate_set(args):
+            result = self.__automation.gate_toggle()
+        elif self.is_command_gate_stop_set(args):
+            result = self.__automation.gate_stop()
+        else:
             abort(404, message="Command providded not available")
-            
 
-api.add_resource(CommandController, "/command")
+        return ({'s': int(result)}, 200)
+
+    def is_command_ecu_set(self, args) -> bool:
+        return args['alarm_ecu_set'] != None
+    
+    def is_command_gate_set(self, args) -> bool:
+        return args['gate_ecu_set'] != None
+
+    def is_command_gate_stop_set(self, args) -> bool:
+        return args['gate_stop_set'] != None
 
 if __name__ == "__main__":
+    logging.basicConfig(level=logging.DEBUG, format="%(asctime)s %(levelname)s %(threadName)s %(name)s %(message)s")
 
-    app.run(debug=True)
+    automation = Automation()
+    status_publisher = StatusPublisher(automation)
+    status_publisher.start()
 
-    # logging.basicConfig(level=logging.DEBUG, format="%(asctime)s %(levelname)s %(threadName)s %(name)s %(message)s")
+    api.add_resource(CommandController, "/command", 
+        resource_class_kwargs={'automation': automation})
 
-    # automation = Automation()
-
-    # status_publisher = StatusPublisher(automation)
-    # status_publisher.start_publishing()
+    app.run(debug=False)

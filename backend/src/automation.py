@@ -5,8 +5,6 @@ from src.logger import LoggerSingleton
 from src.system_information import SystemInformation
 
 class Automation:
-
-
     def __init__(self):
         self.alarm_pin = DigitalInputDevice(Pinout.SWITCH_ALARM_PIN, True, None, 0.300)
         self.ecu_status_pin = DigitalInputDevice(Pinout.STATUS_ECU_PIN)
@@ -17,13 +15,21 @@ class Automation:
         self.gate_stop_pin = DigitalOutputDevice(Pinout.STOP_GATE_PIN)
 
     def serialize(self) -> str: 
-        output = f'{{ "alarm": {int(self.is_alarm_ringing())}, '
-        output += f'"ecu": {int(self.ecu_status())}, '
-        output += f'"gate": {int(self.gate_status())}, '
+        output = f'{{ {self.str_alarm_status()}, '
+        output += f'{self.str_ecu_status()}, '
+        output += f'{self.str_gate_status()}, '
         output += f'"systemInfo": {self.system_info().serialize()} }}'
 
         return output
 
+    def str_alarm_status(self) -> str:
+        return f'"alarm": {int(self.is_alarm_ringing())}'
+    
+    def str_ecu_status(self) -> str:
+        return f'"ecu": {int(self.ecu_status())}'
+    
+    def str_gate_status(self) -> str:
+        return f'"gate": {int(self.gate_status())}'
 
     def system_info(self) -> SystemInformation:
         system_info = SystemInformation()
