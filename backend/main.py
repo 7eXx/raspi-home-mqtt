@@ -14,21 +14,21 @@ parser.add_argument('gate_ecu_set')
 parser.add_argument('gate_stop_set')
 
 class CommandController(Resource):
-    __automation: Automation = None
+    automation: Automation = None
 
     def __init__(self, **kwargs) -> None:
         super().__init__()
-        self.__automation = kwargs['automation']
+        self.automation = kwargs['automation']
 
     def put(self):
         args = parser.parse_args()
 
         if self.is_command_ecu_set(args):
-            result = self.__automation.ecu_toggle()
+            result = self.automation.ecu_toggle()
         elif self.is_command_gate_set(args):
-            result = self.__automation.gate_toggle()
+            result = self.automation.gate_toggle()
         elif self.is_command_gate_stop_set(args):
-            result = self.__automation.gate_stop()
+            result = self.automation.gate_stop()
         else:
             abort(404, message="Command providded not available")
 
@@ -53,4 +53,4 @@ if __name__ == "__main__":
     api.add_resource(CommandController, "/command", 
         resource_class_kwargs={'automation': automation})
 
-    app.run(debug=False)
+    app.run(debug=False, host='0.0.0.0')
