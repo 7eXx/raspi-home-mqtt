@@ -1,4 +1,4 @@
-from automation import Automation
+from automation_impl import AutomationImpl
 
 class AutomationSingleton:
     __instance = None
@@ -6,6 +6,6 @@ class AutomationSingleton:
     @classmethod
     def get_instance(cls):
         if AutomationSingleton.__instance is None:
-            AutomationSingleton.__instance = Automation()
+            AutomationSingleton.__instance = AutomationImpl()
 
         return AutomationSingleton.__instance

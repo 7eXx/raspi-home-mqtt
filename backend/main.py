@@ -1,9 +1,10 @@
 import logging
 from flask import Flask
 from flask_restful import Resource, Api, reqparse, abort
-from src.automation import Automation
 from src.command_subscriber import CommandSubscriber
 from src.status_publisher import StatusPublisher
+from src.automation import Automation
+from src.automation_impl import AutomationImpl
 
 app = Flask(__name__)
 api = Api(app)
@@ -14,7 +15,7 @@ parser.add_argument('gate_ecu_set')
 parser.add_argument('gate_stop_set')
 
 class CommandController(Resource):
-    automation: Automation = None
+    automation: Automation
 
     def __init__(self, **kwargs) -> None:
         super().__init__()
@@ -24,11 +25,11 @@ class CommandController(Resource):
         args = parser.parse_args()
 
         if self.is_command_ecu_set(args):
-            result = self.automation.ecu_toggle()
+            result = self.automation.toggle_ecu()
         elif self.is_command_gate_set(args):
-            result = self.automation.gate_toggle()
+            result = self.automation.toggle_gate()
         elif self.is_command_gate_stop_set(args):
-            result = self.automation.gate_stop()
+            result = self.automation.stop_gate()
         else:
             abort(404, message="Command providded not available")
 
@@ -46,7 +47,7 @@ class CommandController(Resource):
 if __name__ == "__main__":
     logging.basicConfig(level=logging.DEBUG, format="%(asctime)s %(levelname)s %(threadName)s %(name)s %(message)s")
 
-    automation = Automation()
+    automation = AutomationImpl()
     status_publisher = StatusPublisher(automation)
     status_publisher.start()
 
