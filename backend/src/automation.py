@@ -1,9 +1,10 @@
 from abc import ABC, abstractmethod
 from src.system_information import SystemInformation
 
+
 class Automation:
 
-    def serialize(self) -> str: 
+    def serialize(self) -> str:
         output = f'{{ {self.str_alarm_status()}, '
         output += f'{self.str_ecu_status()}, '
         output += f'{self.str_gate_status()}, '
@@ -13,10 +14,10 @@ class Automation:
 
     def str_alarm_status(self) -> str:
         return f'"alarm": {int(self.is_alarm_ringing())}'
-    
+
     def str_ecu_status(self) -> str:
         return f'"ecu": {int(self.get_ecu_status())}'
-    
+
     def str_gate_status(self) -> str:
         return f'"gate": {int(self.get_gate_status())}'
 
@@ -26,7 +27,7 @@ class Automation:
         return system_info
 
     @staticmethod
-    def is_ecu_state_mode(prev_state, new_state) -> None:
+    def is_ecu_state_mode(prev_state, new_state) -> bool:
         return new_state == prev_state
 
     @abstractmethod
@@ -56,4 +57,3 @@ class Automation:
     @abstractmethod
     def stop_gate(self) -> bool:
         pass
-

@@ -4,6 +4,7 @@ import logging
 import paho.mqtt.client as mqtt
 import src.environment as environment
 
+
 class StatusPublisher(Thread):
     automation = None
     status_publisher = None
@@ -17,7 +18,7 @@ class StatusPublisher(Thread):
     def __create_status_client_publisher(self) -> None:
         self.status_publisher = mqtt.Client(client_id=environment.CLIENT_ID, transport="websockets")
         self.status_publisher.on_connect = self.__on_connect_status
-        self.status_publisher.connect(environment.BROKER_IP, int(environment.BROKER_PORT), 60)        
+        self.status_publisher.connect(environment.BROKER_IP, int(environment.BROKER_PORT), 60)
 
     def __on_connect_status(self, client, userdata, flags, rc) -> None:
         logging.debug("Status publisher connected with result code: " + str(rc))
