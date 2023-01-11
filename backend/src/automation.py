@@ -38,6 +38,12 @@ class Automation:
     def get_ecu_status(self) -> bool:
         pass
 
+    def set_ecu(self, value: int) -> bool:
+        if self.get_ecu_status() != bool(value):
+            self.toggle_ecu()
+
+        return self.get_ecu_status()
+
     @abstractmethod
     def toggle_ecu(self) -> bool:
         pass
@@ -49,6 +55,12 @@ class Automation:
     @abstractmethod
     def get_gate_status(self) -> bool:
         pass
+
+    def set_gate(self, value: int) -> bool:
+        if self.get_gate_status() != bool(value):
+            self.toggle_gate()
+
+        return self.get_gate_status()
 
     @abstractmethod
     def toggle_gate(self) -> bool:
