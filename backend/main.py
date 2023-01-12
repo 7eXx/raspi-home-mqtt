@@ -30,19 +30,19 @@ class CommandController(Resource):
         args = parser.parse_args()
 
         if self.is_command_ecu_toggle(args):
-            result = self.automation.toggle_ecu()
+            result = self.automation.toggle_alarm_ecu()
         elif self.is_command_ecu_set(args):
-            result = self.automation.set_ecu(int(args['alarm_ecu_set']))
+            result = self.automation.set_alarm_ecu(int(args['alarm_ecu_set']))
         elif self.is_command_antipanic_mode(args):
             result = self.automation.antipanic_mode()
         elif self.is_command_gate_stop_set(args):
-            result = self.automation.toggle_gate()
+            result = self.automation.toggle_gate_ecu()
         elif self.is_command_gate_set(args):
-            result = self.automation.set_gate(int(args['gate_ecu_set']))
+            result = self.automation.set_gate_ecu(int(args['gate_ecu_set']))
         elif self.is_command_gate_stop_set(args):
             result = self.automation.stop_gate()
         else:
-            abort(404, message="Command providded not available")
+            abort(404, message="Command provided not available")
 
         return {'s': int(result)}, 200
 

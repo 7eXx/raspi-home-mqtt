@@ -16,10 +16,10 @@ class Automation:
         return f'"alarm": {int(self.is_alarm_ringing())}'
 
     def str_ecu_status(self) -> str:
-        return f'"ecu": {int(self.get_ecu_status())}'
+        return f'"ecu": {int(self.is_alarm_ecu_active())}'
 
     def str_gate_status(self) -> str:
-        return f'"gate": {int(self.get_gate_status())}'
+        return f'"gate": {int(self.is_gate_open())}'
 
     def system_info(self) -> SystemInformation:
         system_info = SystemInformation()
@@ -27,7 +27,7 @@ class Automation:
         return system_info
 
     @staticmethod
-    def is_ecu_state_mode(prev_state, new_state) -> bool:
+    def is_alarm_ecu_test_mode(prev_state, new_state) -> bool:
         return new_state == prev_state
 
     @abstractmethod
@@ -35,17 +35,25 @@ class Automation:
         pass
 
     @abstractmethod
-    def get_ecu_status(self) -> bool:
+    def is_alarm_ecu_active(self) -> bool:
         pass
 
-    def set_ecu(self, value: int) -> bool:
-        if self.get_ecu_status() != bool(value):
-            self.toggle_ecu()
+    @abstractmethod
+    def is_gate_open(self) -> bool:
+        pass
 
-        return self.get_ecu_status()
+    def set_alarm_ecu(self, value: int) -> bool:
+        if self.is_alarm_ecu_active() != bool(value):
+            self.toggle_alarm_ecu()
+        return self.is_alarm_ecu_active()
+
+    def set_gate_ecu(self, value: int) -> bool:
+        if self.is_gate_open() != bool(value):
+            self.toggle_gate_ecu()
+        return self.is_gate_open()
 
     @abstractmethod
-    def toggle_ecu(self) -> bool:
+    def toggle_alarm_ecu(self) -> bool:
         pass
 
     @abstractmethod
@@ -53,17 +61,7 @@ class Automation:
         pass
 
     @abstractmethod
-    def get_gate_status(self) -> bool:
-        pass
-
-    def set_gate(self, value: int) -> bool:
-        if self.get_gate_status() != bool(value):
-            self.toggle_gate()
-
-        return self.get_gate_status()
-
-    @abstractmethod
-    def toggle_gate(self) -> bool:
+    def toggle_gate_ecu(self) -> bool:
         pass
 
     @abstractmethod
