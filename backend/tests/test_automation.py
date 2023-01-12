@@ -44,5 +44,5 @@ class AutomationTest(unittest.TestCase):
         self.assertFalse(self.automation.is_gate_open())
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

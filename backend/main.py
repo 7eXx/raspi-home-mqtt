@@ -75,4 +75,4 @@ if __name__ == "__main__":
     api.add_resource(CommandController, "/command",
                      resource_class_kwargs={'automation': automation})
 
-    app.run(debug=False, host='0.0.0.0')
+    app.run(debug=False, host="0.0.0.0")
