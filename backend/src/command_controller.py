@@ -34,7 +34,7 @@ class CommandController(Resource):
         elif self.is_command_gate_stop_set(args):
             result = self.automation.stop_gate()
         else:
-            abort(404, message="Command provided not available")
+            return abort(404, message="Command provided not available")
 
         return {'s': int(result)}, 200
 
