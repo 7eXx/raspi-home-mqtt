@@ -1,57 +1,53 @@
 from flask_restful import Resource, abort, reqparse
 
 
+
 class CommandController(Resource):
-    resources = [
+    arguments = [
+        "command",
+        "state"
+    ]
+
+    commands = [
         "alarm_ecu_toggle",
         "alarm_ecu_set",
+        "alarm_antipanic_mode"
         "gate_ecu_toggle",
         "gate_ecu_set",
-        "gate_stop_toggle",
-        "alarm_antipanic_mode",
+        "gate_stop_toggle"
     ]
 
     def __init__(self, **kwargs) -> None:
         super().__init__()
         self.automation = kwargs['automation']
         self.parser = reqparse.RequestParser()
-        for arg in self.__class__.resources:
+        for arg in self.__class__.arguments:
             self.parser.add_argument(arg)
 
     def put(self):
         args = self.parser.parse_args()
 
-        if self.is_command_ecu_toggle(args):
+        command, state = args['command'], args['state']
+
+        if not self.is_command_valid(command):
+            return abort(400, message="Command provided not available")
+
+        if command == "alarm_ecu_toggle":
             result = self.automation.toggle_alarm_ecu()
-        elif self.is_command_ecu_set(args):
-            result = self.automation.set_alarm_ecu(int(args['alarm_ecu_set']))
-        elif self.is_command_antipanic_mode(args):
+        elif command == "alarm_ecu_set" and state is not None:
+            result = self.automation.set_alarm_ecu(int(state))
+        elif command == "alarm_antipanic_mode":
             result = self.automation.antipanic_mode()
-        elif self.is_command_gate_toggle(args):
+        elif command == "gate_ecu_toggle":
             result = self.automation.toggle_gate_ecu()
-        elif self.is_command_gate_set(args):
-            result = self.automation.set_gate_ecu(int(args['gate_ecu_set']))
-        elif self.is_command_gate_stop_set(args):
+        elif command == "gate_ecu_set" and state is not None:
+            result = self.automation.set_gate_ecu(int(state))
+        elif command == "gate_stop_toggle":
             result = self.automation.stop_gate()
         else:
-            return abort(404, message="Command provided not available")
+            return abort(400, message="Wrong combination for command and state")
 
         return {'s': int(result)}, 200
 
-    def is_command_ecu_toggle(self, args) -> bool:
-        return args['alarm_ecu_toggle'] is not None
-
-    def is_command_ecu_set(self, args) -> bool:
-        return args['alarm_ecu_set']
-
-    def is_command_antipanic_mode(self, args) -> bool:
-        return args['alarm_antipanic_mode'] is not None
-
-    def is_command_gate_toggle(self, args) -> bool:
-        return args['gate_ecu_toggle'] is not None
-
-    def is_command_gate_set(self, args) -> bool:
-        return args['gate_ecu_set'] is not None
-
-    def is_command_gate_stop_set(self, args) -> bool:
-        return args['gate_stop_toggle'] is not None
+    def is_command_valid(self, command: str) -> bool:
+        return command in self.__class__.commands
