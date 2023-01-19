@@ -1,5 +1,5 @@
 
-from src.automation import Automation
+from automation_impl import AutomationImpl
 from src.system_information import DiskInfo, MemoryInfo, CpuInfo, SystemInformation
 
 disk = DiskInfo()
@@ -18,6 +18,6 @@ system_info = SystemInformation()
 
 print(system_info.serialize())
 
-automation = Automation()
+automation = AutomationImpl()
 
 print(automation.serialize())
