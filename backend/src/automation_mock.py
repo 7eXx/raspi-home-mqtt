@@ -22,23 +22,23 @@ class AutomationMock(Automation):
     def is_gate_open(self) -> bool:
         return bool(self.__gate_status_pin)
 
-    def toggle_alarm_ecu(self) -> bool:
+    def toggle_alarm_ecu(self, **kwargs) -> bool:
         sleep(AutomationMock.ALARM_ECU_WAIT_TIME)
         self.__ecu_status_pin = int(not self.is_alarm_ecu_active())
         self.__alarm_pin = 1
         return self.is_alarm_ecu_active()
 
-    def antipanic_mode(self) -> bool:
+    def antipanic_mode(self, **kwargs) -> bool:
         sleep(AutomationMock.ALARM_ANTIPANIC_WAIT_TIME)
         self.__ecu_status_pin = 1
         self.__alarm_pin = 0
         return self.is_alarm_ringing()
 
-    def toggle_gate_ecu(self) -> bool:
+    def toggle_gate_ecu(self, **kwargs) -> bool:
         sleep(AutomationMock.GATE_ECU_WAIT_TIME)
         self.__gate_status_pin = int(not self.is_gate_open())
         return self.is_gate_open()
 
-    def stop_gate(self) -> bool:
+    def stop_gate(self, **kwargs) -> bool:
         sleep(AutomationMock.GATE_STOP_WAIT_TIME)
         return self.is_gate_open()

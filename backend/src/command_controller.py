@@ -30,7 +30,7 @@ class CommandController(Resource):
         if not self.is_command_valid(command):
             return abort(400, message="Command provided not available")
 
-        result = self.commands[command](state)
+        result = self.commands[command](state=state)
 
         return {'s': int(result)}, 200
 
