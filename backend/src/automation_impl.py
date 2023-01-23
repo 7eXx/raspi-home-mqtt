@@ -29,8 +29,14 @@ class AutomationImpl(Automation):
         else:
             return False
 
+    def is_gate_open(self) -> bool:
+        if self.gate_status_pin.value:
+            return True
+        else:
+            return False
+
     # metodo rpc per cambiare lo stato alla centralina
-    def toggle_alarm_ecu(self) -> bool:
+    def toggle_alarm_ecu(self, **kwargs) -> bool:
         # change state ecu toggle pin
         self.ecu_toggle_pin.on()
         time.sleep(0.3)
@@ -39,7 +45,7 @@ class AutomationImpl(Automation):
 
         return self.is_alarm_ecu_active()
 
-    def antipanic_mode(self) -> bool:
+    def antipanic_mode(self, **kwargs) -> bool:
         # change state ecu toggle pin
         self.ecu_toggle_pin.on()
         time.sleep(4)
@@ -48,14 +54,7 @@ class AutomationImpl(Automation):
 
         return self.is_alarm_ringing()
 
-    def is_gate_open(self) -> bool:
-        if self.gate_status_pin.value:
-            return True
-        else:
-            return False
-
-    # metodo rpc per aprire-chiudere il cancello
-    def toggle_gate_ecu(self) -> bool:
+    def toggle_gate_ecu(self, **kwargs) -> bool:
         # cambio stato del cancello
         self.gate_switch_pin.on()
         time.sleep(0.5)
@@ -64,7 +63,7 @@ class AutomationImpl(Automation):
         return self.is_gate_open()
 
     # metodo rpc per bloccare il cancello
-    def stop_gate(self) -> bool:
+    def stop_gate(self, **kwargs) -> bool:
         # cambio pin stop cancello
         self.gate_stop_pin.on()
         time.sleep(0.5)
