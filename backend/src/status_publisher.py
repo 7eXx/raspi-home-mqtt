@@ -17,11 +17,15 @@ class StatusPublisher(Thread):
 
     def __create_status_client_publisher(self) -> None:
         self.status_publisher = mqtt.Client(client_id=environment.CLIENT_ID, transport="websockets")
-        self.status_publisher.on_connect = self.__on_connect_status
+        self.status_publisher.on_connect = self.__on_connect
+        self.status_publisher.on_disconnect = self.__on_disconnect
         self.status_publisher.connect(environment.BROKER_IP, int(environment.BROKER_PORT), 60)
 
-    def __on_connect_status(self, client, userdata, flags, rc) -> None:
+    def __on_connect(self, client, userdata, flags, rc) -> None:
         logging.debug("Status publisher connected with result code: " + str(rc))
+
+    def __on_disconnect(self, client, userdata, rc) -> None:
+        logging.warning("Stataus publisher is going to be discconected")
 
     def run(self):
         while True:
