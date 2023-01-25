@@ -42,18 +42,18 @@ class Automation:
     def is_gate_open(self) -> bool:
         pass
 
-    def set_alarm_ecu(self, value: int) -> bool:
-        if self.is_alarm_ecu_active() != bool(value):
+    def set_alarm_ecu(self, **kwargs) -> bool:
+        if self.is_alarm_ecu_active() != bool(int(kwargs['state'])):
             self.toggle_alarm_ecu()
         return self.is_alarm_ecu_active()
 
-    def set_gate_ecu(self, value: int) -> bool:
-        if self.is_gate_open() != bool(value):
+    def set_gate_ecu(self, **kwargs) -> bool:
+        if self.is_gate_open() != bool(int(kwargs['state'])):
             self.toggle_gate_ecu()
         return self.is_gate_open()
 
     @abstractmethod
-    def toggle_alarm_ecu(self) -> bool:
+    def toggle_alarm_ecu(self, **kwargs) -> bool:
         pass
 
     @abstractmethod
