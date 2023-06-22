@@ -29,12 +29,10 @@ class StatusPublisher(Thread):
 
     def run(self):
         self.client.loop_start()
-        while not self.connected_flag:
-            sleep(1)
-
         while True:
-            automation_info_serialized = self.automation.serialize()
-            logging.debug(automation_info_serialized)
-            self.client.publish(environment.STATUS_TOPIC, automation_info_serialized)
+            if self.connected_flag:
+                automation_info_serialized = self.automation.serialize()
+                logging.debug(automation_info_serialized)
+                self.client.publish(environment.STATUS_TOPIC, automation_info_serialized)
 
             sleep(environment.PUBLISH_TIMEOUT)
