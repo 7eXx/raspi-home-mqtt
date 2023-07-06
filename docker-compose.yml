@@ -18,6 +18,7 @@ services:
       - GPIOZERO_PIN_FACTORY=mock
     volumes:
       - ./docker/backend/.env.local:/opt/raspi-home/.env.local
-
+    ports:
+      - 5000:5000
 
 
