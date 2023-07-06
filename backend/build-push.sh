@@ -1,9 +1,43 @@
 #!/bin/bash
 
-set -e
-
 [ -f .env ] && . ./.env
 [ -f .env.local ] && . ./.env.local
+
+set -e
+
+showHelp()
+{
+  echo "Build docker image for backend raspi home and push it to custom registry"
+  echo "Syntax: ./build-push.sh [--arm]"
+  echo
+  echo "options:"
+  echo
+  echo "--arm   Build image using arm/v6 platform"
+  echo "-h      Print this help guide"
+}
+
+setArgs()
+{
+  while [ "${1:-}" != "" ]; do
+    case "$1" in
+      "-h" | "--help")
+        showHelp
+        exit 0
+        ;;
+      "--arm")
+        platform="linux/arm/v6"
+        break
+        ;;
+      *)
+        showHelp
+        exit 0
+        ;;
+    esac
+  done
+}
+
+platform="linux/amd64"
+setArgs "$@"
 
 if [ -z ${PRIVATE_DOCKER_REGISTRY} ]; then
     cat ./.docker_pass | docker login -u $USERNAME --password-stdin
@@ -23,15 +57,14 @@ commit_hash=$(git log -1 --format=%h)
 commit_image_name=${image_name}:${commit_hash}
 echo "docker image commit hash - ${commit_image_name}"
 
-docker build \
-    --platform linux/arm/v6 \
-    --platform linux/amd64 \
+docker build . \
+    --platform ${platform} \
     -t ${full_image_name} \
     -t ${branch_image_name} \
-    -t ${commit_image_name} .
+    -t ${commit_image_name}
 
-docker push ${full_image_name} 
-docker push ${branch_image_name} 
-docker push ${commit_image_name} 
+docker push ${full_image_name}
+docker push ${branch_image_name}
+docker push ${commit_image_name}
 
 exit 0
