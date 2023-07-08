@@ -1,0 +1,11 @@
+version: "3.8"
+
+backend:
+    container_name: raspi-home-backend
+    image: synology-nas.home:5555/raspi-home-backend:latest
+    environment:
+      - GPIOZERO_PIN_FACTORY=mock
+    volumes:
+      - ./docker/backend/.env.local:/opt/raspi-home/.env.local
+    ports:
+      - 5000:5000
