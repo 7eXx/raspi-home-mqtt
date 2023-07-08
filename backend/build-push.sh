@@ -12,8 +12,9 @@ showHelp()
   echo
   echo "options:"
   echo
-  echo "--arm   Build image using arm/v6 platform"
-  echo "-h      Print this help guide"
+  echo "--arm         Build image using arm/v6 platform"
+  echo "--no-push     Avoid pushing build image"
+  echo "-h            Print this help guide"
 }
 
 setArgs()
@@ -26,19 +27,23 @@ setArgs()
         ;;
       "--arm")
         platform="linux/arm/v6"
-        break
+        ;;
+      "--no-push")
+        no_push="no-push"
         ;;
       *)
         showHelp
         exit 0
         ;;
     esac
+    shift
   done
 }
 
 platform="linux/amd64"
 setArgs "$@"
 
+# If private docker registry is not defined, login to Docker.io
 if [ -z ${PRIVATE_DOCKER_REGISTRY} ]; then
     cat ./.docker_pass | docker login -u $USERNAME --password-stdin
     image_name=${USERNAME}/${DOCKER_IMAGE}
@@ -63,8 +68,10 @@ docker build . \
     -t ${branch_image_name} \
     -t ${commit_image_name}
 
-docker push ${full_image_name}
-docker push ${branch_image_name}
-docker push ${commit_image_name}
+if [ -z "${no_push}" ]; then
+  docker push ${full_image_name}
+  docker push ${branch_image_name}
+  docker push ${commit_image_name}
+fi
 
 exit 0
