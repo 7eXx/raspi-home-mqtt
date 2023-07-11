@@ -1,6 +1,7 @@
 import logging
 import os
 from flask import Flask
+from flask_cors import CORS
 from flask_restful import Api
 
 from src.command_controller import CommandController
@@ -10,6 +11,7 @@ from src.automation_impl import AutomationImpl
 from src.automation_mock import AutomationMock
 
 app = Flask(__name__)
+CORS(app)
 api = Api(app)
 
 logging.basicConfig(level=logging.DEBUG, format="%(asctime)s %(levelname)s %(threadName)s %(name)s %(message)s")
