@@ -18,7 +18,7 @@ class StatusPublisher(Thread):
         self.client.on_connect = self.__on_connect
         self.client.on_disconnect = self.__on_disconnect
         # Fix: In case network is not available this will throw exception
-        self.client.connect(environment.BROKER_IP, int(environment.BROKER_PORT), 60)
+        self.client.connect(environment.BROKER_HOST, int(environment.BROKER_PORT), 60)
 
     def __on_connect(self, client, userdata, flags, rc) -> None:
         logging.debug("Status publisher connected with result code: " + str(rc))

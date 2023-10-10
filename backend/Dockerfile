@@ -1,4 +1,4 @@
-FROM python:3
+FROM python:3.9
 
 WORKDIR /opt/raspi-home/
 
@@ -15,6 +15,7 @@ COPY wsgi.py .
 
 COPY src src
 
+ENV GPIOZERO_PIN_FACTORY native
 ENV FLASK_APP main.py
 ENV FLASK_RUN_PORT 5000
 ENV FLASK_RUN_HOST 0.0.0.0
