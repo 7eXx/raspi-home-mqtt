@@ -1,6 +1,7 @@
 version: "3.8"
 
-backend:
+services:
+  backend:
     container_name: raspi-home-backend
     image: synology-nas.home:5555/raspi-home-backend:latest
     environment:
