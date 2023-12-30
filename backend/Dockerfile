@@ -2,8 +2,6 @@ FROM python:3.9
 
 WORKDIR /opt/raspi-home/
 
-RUN python -m  venv venv
-
 COPY requirements.txt .
 
 RUN pip install --no-cache-dir -r requirements.txt
