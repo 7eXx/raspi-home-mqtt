@@ -25,7 +25,7 @@ else:
 status_publisher = StatusPublisher(automation)
 status_publisher.start()
 
-api.add_resource(CommandController, "/command",
+api.add_resource(CommandController, "/api/command",
                     resource_class_kwargs={'automation': automation})
 
 if __name__ == "__main__":
