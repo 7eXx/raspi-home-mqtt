@@ -2,7 +2,6 @@ version: "3.8"
 
 services:
   mosquitto:
-    container_name: mosquitto
     image: eclipse-mosquitto
     volumes:
       - ./docker/mosquitto/config:/mosquitto/config
@@ -11,8 +10,8 @@ services:
     ports:
       - 1883:1883
       - 9001:9001
+
   backend:
-    container_name: raspi-home-backend
     image: synology-nas.home:5555/raspi-home-backend:latest
     environment:
       - GPIOZERO_PIN_FACTORY=mock
@@ -20,5 +19,10 @@ services:
       - ./docker/backend/.env.local:/opt/raspi-home/.env.local
     ports:
       - 5000:5000
+
+  webapp:
+    image: synology-nas.home:5555/raspi-home-ionic:latest
+    ports:
+      - 18080:80
 
 
