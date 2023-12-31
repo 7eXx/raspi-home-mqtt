@@ -3,11 +3,12 @@ from time import sleep
 import logging
 import paho.mqtt.client as mqtt
 import src.environment as environment
+from src.automation import Automation
 
 
 class StatusPublisher(Thread):
 
-    def __init__(self, automation):
+    def __init__(self, automation: Automation):
         Thread.__init__(self)
         self.automation = automation
         self.__create_status_client_publisher()
@@ -34,6 +35,9 @@ class StatusPublisher(Thread):
             if self.connected_flag:
                 automation_info_serialized = self.automation.serialize()
                 logging.debug(automation_info_serialized)
+                if self.automation.is_alarm_ringing():
+                    logging.info(f'Alarm is ringing!!')
+
                 self.client.publish(environment.STATUS_TOPIC, automation_info_serialized)
 
             sleep(environment.PUBLISH_TIMEOUT)
