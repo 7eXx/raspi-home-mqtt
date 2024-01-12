@@ -26,7 +26,7 @@ setArgs()
         exit 0
         ;;
       "--arm")
-        platform="linux/arm/v6"
+        platform="linux/arm/v7"
         ;;
       "--no-push")
         no_push="no-push"
