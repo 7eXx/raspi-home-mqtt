@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/bash
 
 [ -f .env ] && . ./.env
 [ -f .env.local ] && . ./.env.local
