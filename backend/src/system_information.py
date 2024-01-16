@@ -62,14 +62,7 @@ class CpuInfo:
             self.temperature = 0
 
     def serialize(self) -> str:
-        output = f'{{"percentage": {float(self.percentage)}, '
-        output += f'"minTemp": {float(self.min_temp)}, '
-        output += f'"maxTemp": {float(self.max_temp)}, '
-        output += f'"temperature": {float(self.temperature)}, '
-        output += f'"unit": "{self.unit}"}}'
-
-        return output
-
+        return json.dumps(self.__dict__, ensure_ascii=False)
 
 class SystemInformation:
     def __init__(self):

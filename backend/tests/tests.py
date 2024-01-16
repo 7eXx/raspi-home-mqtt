@@ -1,5 +1,5 @@
 
-from automation_impl import AutomationImpl
+from src.automation_impl import AutomationImpl
 from src.system_information import DiskInfo, MemoryInfo, CpuInfo, SystemInformation
 
 disk = DiskInfo()
