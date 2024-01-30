@@ -1,10 +1,12 @@
 from time import sleep
-from src.automation import Automation
+from raspi_home_texx.automation import Automation
+from raspi_home_texx.system_info import SystemInfo
 
 
 class AutomationMock(Automation):
+
     ALARM_ECU_WAIT_TIME = 0.5
-    ALARM_ANTIPANIC_WAIT_TIME = 2
+    ALARM_ANTI_PANIC_WAIT_TIME = 2
     GATE_ECU_WAIT_TIME = 0.5
     GATE_STOP_WAIT_TIME = 1
 
@@ -12,6 +14,12 @@ class AutomationMock(Automation):
         self.__alarm_pin = 1
         self.__ecu_status_pin = 0
         self.__gate_status_pin = 0
+
+    def temperature(self) -> (float, str):
+        pass
+
+    def system_info(self) -> SystemInfo:
+        pass
 
     def is_alarm_ringing(self) -> bool:
         return not self.__alarm_pin
@@ -28,8 +36,8 @@ class AutomationMock(Automation):
         self.__alarm_pin = 1
         return self.is_alarm_ecu_active()
 
-    def antipanic_mode(self, **kwargs) -> bool:
-        sleep(AutomationMock.ALARM_ANTIPANIC_WAIT_TIME)
+    def anti_panic_mode(self, **kwargs) -> bool:
+        sleep(AutomationMock.ALARM_ANTI_PANIC_WAIT_TIME)
         self.__ecu_status_pin = 1
         self.__alarm_pin = 0
         return self.is_alarm_ringing()

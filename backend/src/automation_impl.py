@@ -1,9 +1,9 @@
-import time
+
 from gpiozero import DigitalInputDevice, DigitalOutputDevice
-from system_info_texx.system_info import SimpleSystemInfo, SystemInfo
+from raspi_home_texx.system_info import SimpleSystemInfo, SystemInfo
+from raspi_home_texx.automation import Automation
 
 from src.pinout import Pinout
-from src.automation import Automation
 
 
 class AutomationImpl(Automation):

@@ -1,6 +1,6 @@
 import unittest
 
-from src.automation import Automation
+from raspi_home_texx.automation import Automation
 from src.automation_mock import AutomationMock
 
 
