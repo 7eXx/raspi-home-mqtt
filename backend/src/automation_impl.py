@@ -16,6 +16,8 @@ class AutomationImpl(Automation):
         self._gate_switch_pin = DigitalOutputDevice(Pinout.SWITCH_GATE_PIN)
         self._gate_stop_pin = DigitalOutputDevice(Pinout.STOP_GATE_PIN)
 
+        self._alarm_observers = []
+
     def temperature(self) -> (float, str):
         # retrieve temperature from cpu
         sys_info = SimpleSystemInfo()

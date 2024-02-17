@@ -1,6 +1,6 @@
 from time import sleep
 from raspi_home_texx.automation import Automation
-from raspi_home_texx.system_info import SystemInfo
+from raspi_home_texx.system_info import SystemInfo, SimpleSystemInfo
 
 
 class AutomationMock(Automation):
@@ -15,11 +15,18 @@ class AutomationMock(Automation):
         self.__ecu_status_pin = 0
         self.__gate_status_pin = 0
 
+        self._alarm_observers = []
+
     def temperature(self) -> (float, str):
-        pass
+        # retrieve temperature from cpu
+        sys_info = SimpleSystemInfo()
+
+        return sys_info.cpu.temperature, sys_info.cpu.unit
 
     def system_info(self) -> SystemInfo:
-        pass
+        sys_info = SimpleSystemInfo()
+
+        return sys_info
 
     def is_alarm_ringing(self) -> bool:
         return not self.__alarm_pin
