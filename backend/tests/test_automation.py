@@ -1,6 +1,6 @@
 import unittest
 
-from src.automation import Automation
+from raspi_home_texx.automation import Automation
 from src.automation_mock import AutomationMock
 
 
@@ -22,13 +22,13 @@ class AutomationTest(unittest.TestCase):
         self.assertFalse(self.automation.is_alarm_ecu_active())
 
     def test_set_alarm_ecu(self):
-        self.automation.set_alarm_ecu(1)
+        self.automation.set_alarm_ecu(state=1)
         self.assertTrue(self.automation.is_alarm_ecu_active())
-        self.automation.set_alarm_ecu(0)
+        self.automation.set_alarm_ecu(state=0)
         self.assertFalse(self.automation.is_alarm_ecu_active())
 
-    def test_antipanic_mode(self):
-        self.automation.antipanic_mode()
+    def test_anti_panic_mode(self):
+        self.automation.anti_panic_mode()
         self.assertTrue(self.automation.is_alarm_ringing())
 
     def test_toggle_gate_ecu(self):
@@ -38,9 +38,9 @@ class AutomationTest(unittest.TestCase):
         self.assertFalse(self.automation.is_gate_open())
 
     def test_set_gate_ecu(self):
-        self.automation.set_gate_ecu(1)
+        self.automation.set_gate_ecu(state=1)
         self.assertTrue(self.automation.is_gate_open())
-        self.automation.set_gate_ecu(0)
+        self.automation.set_gate_ecu(state=0)
         self.assertFalse(self.automation.is_gate_open())
 
 

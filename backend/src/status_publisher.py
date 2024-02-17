@@ -1,9 +1,9 @@
 from threading import Thread
 from time import sleep
+from raspi_home_texx.automation import Automation
 import logging
 import paho.mqtt.client as mqtt
 import src.environment as environment
-from src.automation import Automation
 
 
 class StatusPublisher(Thread):

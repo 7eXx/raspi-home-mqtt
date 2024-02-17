@@ -1,5 +1,6 @@
 from flask_restful import Resource, abort, reqparse
-from src.automation import Automation
+from raspi_home_texx.automation import Automation
+
 
 class CommandController(Resource):
     arguments = [
@@ -9,17 +10,17 @@ class CommandController(Resource):
 
     def __init__(self, **kwargs) -> None:
         super().__init__()
-        self.automation = kwargs['automation']
-        self.__create_commands(self.automation)
+        self.automation: Automation = kwargs['automation']
+        self.__create_commands()
         self.parser = reqparse.RequestParser()
         for arg in self.__class__.arguments:
             self.parser.add_argument(arg)
 
-    def __create_commands(self, automation: Automation):
+    def __create_commands(self):
         self.commands = {
             "alarm_ecu_toggle": self.automation.toggle_alarm_ecu,
             "alarm_ecu_set": self.automation.set_alarm_ecu,
-            "alarm_antipanic_mode": self.automation.antipanic_mode,
+            "alarm_anti_panic_mode": self.automation.anti_panic_mode,
             "gate_ecu_toggle": self.automation.toggle_gate_ecu,
             "gate_ecu_set": self.automation.set_gate_ecu,
             "gate_stop_toggle": self.automation.stop_gate,

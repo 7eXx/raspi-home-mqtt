@@ -6,7 +6,7 @@ from flask_restful import Api
 
 from src.command_controller import CommandController
 from src.status_publisher import StatusPublisher
-from src.automation import Automation
+from raspi_home_texx.automation import Automation
 from src.automation_impl import AutomationImpl
 from src.automation_mock import AutomationMock
 
