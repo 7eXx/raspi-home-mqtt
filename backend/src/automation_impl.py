@@ -9,7 +9,7 @@ from src.pinout import Pinout
 class AutomationImpl(Automation):
     def __init__(self):
         super().__init__()
-        self._alarm_pin = DigitalInputDevice(Pinout.SWITCH_ALARM_PIN, True, None, 0.300)
+        self._alarm_pin = DigitalInputDevice(Pinout.SWITCH_ALARM_PIN, None, True, 0.300)
         self._alarm_pin.when_activated = self.__alarm_callback
         self._alarm_pin.when_deactivated = self.__alarm_callback
 
