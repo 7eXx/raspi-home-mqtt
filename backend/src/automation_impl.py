@@ -8,6 +8,7 @@ from src.pinout import Pinout
 
 class AutomationImpl(Automation):
     def __init__(self):
+        super().__init__()
         self._alarm_pin = DigitalInputDevice(Pinout.SWITCH_ALARM_PIN, True, None, 0.300)
         self._ecu_status_pin = DigitalInputDevice(Pinout.STATUS_ECU_PIN)
         self._gate_status_pin = DigitalInputDevice(Pinout.STATUS_GATE_PIN)
@@ -28,3 +29,15 @@ class AutomationImpl(Automation):
         sys_info = SimpleSystemInfo()
 
         return sys_info
+
+    def toggle_alarm_ecu(self, **kwargs) -> bool:
+        return super().toggle_alarm_ecu()
+    
+    def anti_panic_mode(self, **kwargs) -> bool:
+        return super().anti_panic_mode()
+
+    def toggle_gate_ecu(self, **kwargs) -> bool:
+        return super().toggle_gate_ecu()
+
+    def stop_gate(self, **kwargs) -> bool:
+        return super().stop_gate()

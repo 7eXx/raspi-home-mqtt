@@ -11,6 +11,7 @@ class AutomationMock(Automation):
     GATE_STOP_WAIT_TIME = 1
 
     def __init__(self):
+        super().__init__()
         self.__alarm_pin = 1
         self.__ecu_status_pin = 0
         self.__gate_status_pin = 0
