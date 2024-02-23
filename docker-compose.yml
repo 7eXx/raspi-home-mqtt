@@ -12,7 +12,7 @@ services:
       - 9001:9001
 
   backend:
-    image: synology-nas.home:5555/raspi-home-backend:latest
+    image: registry.texhome.lan/raspi-home-backend:latest
     environment:
       - GPIOZERO_PIN_FACTORY=mock
     volumes:
@@ -21,7 +21,7 @@ services:
       - 5000:5000
 
   webapp:
-    image: synology-nas.home:5555/raspi-home-ionic:latest
+    image: registry.texhome.lan/raspi-home-ionic:latest
     ports:
       - 18080:80
 
