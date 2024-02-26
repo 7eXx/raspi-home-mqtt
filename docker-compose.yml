@@ -16,12 +16,17 @@ services:
     environment:
       - GPIOZERO_PIN_FACTORY=mock
     volumes:
+      - ./docker/backend/.env:/opt/raspi-home/.env
       - ./docker/backend/.env.local:/opt/raspi-home/.env.local
     ports:
       - 5000:5000
 
   webapp:
     image: registry.texhome.lan/raspi-home-ionic:latest
+    environment:
+      - SERVER_NAME="app.texhome.lan"
+      - BACKEND_URL="http://backend:5000"
+      - MOSQUITTO_URL="http://mosquitto:9001"
     ports:
       - 18080:80
 
