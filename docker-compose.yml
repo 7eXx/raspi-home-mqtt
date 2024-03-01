@@ -15,6 +15,7 @@ services:
     image: registry.texhome.lan/raspi-home-backend:latest
     environment:
       - GPIOZERO_PIN_FACTORY=mock
+      - TZ=Europe/Rome
     volumes:
       - ./docker/backend/.env:/opt/raspi-home/.env
       - ./docker/backend/.env.local:/opt/raspi-home/.env.local

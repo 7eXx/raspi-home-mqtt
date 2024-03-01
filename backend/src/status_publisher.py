@@ -1,7 +1,7 @@
 from threading import Thread
 from time import sleep
 from raspi_home_texx.automation import Automation
-import logging
+from raspi_home_texx import get_console_logger
 import paho.mqtt.client as mqtt
 import src.environment as environment
 
@@ -10,6 +10,7 @@ class StatusPublisher(Thread):
 
     def __init__(self, automation: Automation):
         Thread.__init__(self)
+        self.logger = get_console_logger(__name__, environment.LOGGING_LEVEL)
         self.automation = automation
         self.__create_status_client_publisher()
 
@@ -22,11 +23,11 @@ class StatusPublisher(Thread):
         self.client.connect(environment.BROKER_HOST, int(environment.BROKER_PORT), 60)
 
     def __on_connect(self, client, userdata, flags, rc) -> None:
-        logging.debug("Status publisher connected with result code: " + str(rc))
+        self.logger.debug("Status publisher connected with result code: " + str(rc))
         self.connected_flag = True
 
     def __on_disconnect(self, client, userdata, rc) -> None:
-        logging.warning("Stataus publisher is going to be discconected")
+        self.logger.warning("Stataus publisher is going to be discconected")
         self.connected_flag = False
 
     def run(self):
@@ -34,9 +35,9 @@ class StatusPublisher(Thread):
         while True:
             if self.connected_flag:
                 automation_info_serialized = self.automation.serialize()
-                logging.debug(automation_info_serialized)
+                self.logger.debug(automation_info_serialized)
                 if self.automation.is_alarm_ringing():
-                    logging.info(f'Alarm is ringing!!')
+                    self.logger.info(f'Alarm is ringing!!')
 
                 self.client.publish(environment.STATUS_TOPIC, automation_info_serialized)
 
