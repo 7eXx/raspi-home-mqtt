@@ -24,4 +24,6 @@ class BotTelegramBuilder(AbstractBotTelegramBuilder):
         return ChatFilterExtended(list_id)
 
     def create_command_callbacks(self, commands: CommandsExtended, chat_handler: ChatHandlerExtended) -> [CommandCallback]:
-        return []
+        return [
+            CommandCallback(commands.WAKE_RYZE, chat_handler.wake_ryzen)
+        ]
