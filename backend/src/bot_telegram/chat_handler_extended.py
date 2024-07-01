@@ -17,5 +17,4 @@ class ChatHandlerExtended(ChatHandler):
         self._logger.info("sveglio il ryzen 7 di Marco")
         context.bot.send_message(chat_id=update.effective_chat.id,
                                  text=emoji.emojize("Sveglio il ryzen di Marco :computer_mouse:", use_aliases=True))
-        subprocess.run("wakeonlan -i 192.168.0.255 04:D9:F5:21:8E:57",
-                       capture_output=True, text=True)
+        subprocess.call("wakeonlan -i 192.168.0.255 04:D9:F5:21:8E:57", shell=True)

@@ -56,3 +56,7 @@ class AutomationImpl(Automation):
 
     def stop_gate(self, **kwargs) -> bool:
         return super().stop_gate()
+
+    def wake_online(self, **kwargs) -> bool:
+        pass
+        # TODO: perform wake up action
