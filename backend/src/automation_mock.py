@@ -1,9 +1,10 @@
 from time import sleep
-from raspi_home_texx.automation import Automation
 from raspi_home_texx.system_info import SystemInfo, SimpleSystemInfo
 
+from src.base_automation import BaseAutomation
 
-class AutomationMock(Automation):
+
+class AutomationMock(BaseAutomation):
 
     ALARM_ECU_WAIT_TIME = 0.5
     ALARM_ANTI_PANIC_WAIT_TIME = 2
