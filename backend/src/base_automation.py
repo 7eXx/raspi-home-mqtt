@@ -1,9 +1,7 @@
 import subprocess
 from abc import ABC
-
-from raspi_home_texx.automation import Automation
-
 from src import environment
+from raspi_home_texx.automation import Automation
 
 
 class BaseAutomation(Automation, ABC):

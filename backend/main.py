@@ -13,6 +13,7 @@ from src.automation_impl import AutomationImpl
 from src.automation_mock import AutomationMock
 
 import src.environment as environment
+from src.wake_ryzen_controller import WakeRyzenController
 
 file_logger.set_file_path(environment.LOG_FILE)
 
@@ -40,8 +41,9 @@ bot.send_message_to_list(emoji.emojize("Bot gestione allarme pronto :thumbsup:",
 status_publisher = StatusPublisher(automation)
 status_publisher.start()
 
-api.add_resource(CommandController, "/api/command",
-                 resource_class_kwargs={'automation': automation})
+api.add_resource(CommandController, "/api/command", resource_class_kwargs={'automation': automation})
+api.add_resource(WakeRyzenController, "/api/wake_ryzen", resource_class_kwargs={'automation': automation})
+
 
 if __name__ == "__main__":
     app.run(debug=False, host="0.0.0.0")
