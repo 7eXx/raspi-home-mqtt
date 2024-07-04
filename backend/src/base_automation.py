@@ -1,5 +1,7 @@
-import subprocess
 from abc import ABC
+
+from wakeonlan import send_magic_packet
+
 from src import environment
 from raspi_home_texx.automation import Automation
 
@@ -12,9 +14,9 @@ class BaseAutomation(Automation, ABC):
         super().__init__()
 
     def wake_ryzen(self, **kwargs) -> int:
+        result = -1
         if self.RYZEN_MAC_ADDR != "":
-            result = subprocess.call(f"wakeonlan {self.RYZEN_MAC_ADDR}", shell=True)
-        else:
-            result = -1
+            send_magic_packet(self.RYZEN_MAC_ADDR)
+            result = 0
 
         return result
