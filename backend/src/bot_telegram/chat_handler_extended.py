@@ -27,3 +27,17 @@ class ChatHandlerExtended(ChatHandler):
             mess = emoji.emojize("Il pc non viene risvegliato :computer_mouse:", use_aliases=True)
 
         context.bot.send_message(chat_id=update.effective_chat.id, text=mess)
+
+    def wake_luigi(self, update: Update, context: CallbackContext):
+        self._logger.info("provo a svegliare il lenovo di Luigi")
+        if isinstance(self._automation, BaseAutomation):
+            result = self._automation.wake_luigi()
+        else:
+            result = -1
+
+        if result >= 0:
+            mess = emoji.emojize("Sveglio il lenovo di Luigi :computer_mouse:", use_aliases=True)
+        else:
+            mess = emoji.emojize("Il pc non viene risvegliato :computer_mouse:", use_aliases=True)
+
+        context.bot.send_message(chat_id=update.effective_chat.id, text=mess)

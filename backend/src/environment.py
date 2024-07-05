@@ -21,3 +21,4 @@ LOG_FILE = config['LOG_FILE']
 FROM_IDS = [int(chat_id) for chat_id in config['CHAT_IDS'].split(',')]
 
 RYZEN_MAC_ADDR = config['RYZEN_MAC_ADDR']
+LUIGI_MAC_ADDR = config['LUIGI_MAC_ADDR']
