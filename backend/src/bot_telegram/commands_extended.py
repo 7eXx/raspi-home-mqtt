@@ -4,7 +4,7 @@ from raspi_home_texx.bot.commands import Commands
 
 class CommandsExtended(Commands):
     WAKE_RYZE = "wake_ryzen"
-    WAKE_LUIGI = "wake_luigi"
+    WAKE_LUIGI = "wake_luigi_lenovo"
 
     def __init__(self, name: str):
         super().__init__(name)
