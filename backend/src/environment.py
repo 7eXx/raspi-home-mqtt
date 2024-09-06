@@ -20,5 +20,10 @@ LOG_FILE = config['LOG_FILE']
 
 FROM_IDS = [int(chat_id) for chat_id in config['CHAT_IDS'].split(',')]
 
+JENKINS_USER=config['JENKINS_USER']
+JENKINS_PASS=config['JENKINS_PASS']
+WAKE_RYZEN_JOB_URL=config['WAKE_RYZEN_JOB_URL']
+WAKE_RYZEN_TOKEN=config['WAKE_RYZEN_TOKEN']
+
 RYZEN_MAC_ADDR = config['RYZEN_MAC_ADDR']
 LUIGI_MAC_ADDR = config['LUIGI_MAC_ADDR']

@@ -19,9 +19,9 @@ class ChatHandlerExtended(ChatHandler):
         if isinstance(self._automation, BaseAutomation):
             result = self._automation.wake_ryzen()
         else:
-            result = -1
+            result = False
 
-        if result >= 0:
+        if result:
             mess = emoji.emojize("Sveglio il ryzen di Marco :computer_mouse:", use_aliases=True)
         else:
             mess = emoji.emojize("Il pc non viene risvegliato :computer_mouse:", use_aliases=True)
@@ -33,9 +33,9 @@ class ChatHandlerExtended(ChatHandler):
         if isinstance(self._automation, BaseAutomation):
             result = self._automation.wake_luigi()
         else:
-            result = -1
+            result = False
 
-        if result >= 0:
+        if result:
             mess = emoji.emojize("Sveglio il lenovo di Luigi :computer_mouse:", use_aliases=True)
         else:
             mess = emoji.emojize("Il pc non viene risvegliato :computer_mouse:", use_aliases=True)

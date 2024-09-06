@@ -1,31 +1,25 @@
+import requests as req
+
 from abc import ABC
 
-from wakeonlan import send_magic_packet
-
-from src import environment
+from src import environment as env
 from raspi_home_texx.automation import Automation
 
 
 class BaseAutomation(Automation, ABC):
 
-    RYZEN_MAC_ADDR = environment.RYZEN_MAC_ADDR
-    LUIGI_MAC_ADDR = environment.LUIGI_MAC_ADDR
-
     def __init__(self):
         super().__init__()
 
-    def wake_ryzen(self, **kwargs) -> int:
-        result = -1
-        if self.RYZEN_MAC_ADDR != "":
-            send_magic_packet(self.RYZEN_MAC_ADDR)
-            result = 0
+    def wake_ryzen(self, **kwargs) -> bool:
+        wake_ryzen_url = self.__build_wake_ryzen()
+        response = req.get(wake_ryzen_url,timeout=5)
 
-        return result
+        return response.status_code == 200
 
     def wake_luigi(self, **kwargs) -> int:
-        result = -1
-        if self.LUIGI_MAC_ADDR != "":
-            send_magic_packet(self.LUIGI_MAC_ADDR)
-            result = 0
+        # TODO: To be implemented
+        return False
 
-        return result
+    def __build_wake_ryzen(self):
+        return f"{env.JENKINS_USER}:{env.JENKINS_PASS}@{env.WAKE_RYZEN_JOB_URL}?token={env.WAKE_RYZEN_TOKEN}"
