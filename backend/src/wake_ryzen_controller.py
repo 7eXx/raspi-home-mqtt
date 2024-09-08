@@ -9,4 +9,8 @@ class WakeRyzenController(Resource):
         self.automation: BaseAutomation = kwargs['automation']
 
     def get(self):
-        return self.automation.wake_ryzen(), 200
+        result = self.automation.wake_ryzen()
+        if result:
+            return {'status': result}, 200
+        else:
+            return {'status': result}, 500

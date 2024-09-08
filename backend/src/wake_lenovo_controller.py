@@ -9,4 +9,8 @@ class WakeLenovoController(Resource):
         self.automation: BaseAutomation = kwargs['automation']
 
     def get(self):
-        return self.automation.wake_luigi(), 200
+        result = self.automation.wake_luigi()
+        if result:
+            return {'status': result}, 200
+        else:
+            return {'status': result}, 500
