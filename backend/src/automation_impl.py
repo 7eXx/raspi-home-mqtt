@@ -1,12 +1,14 @@
+
 from gpiozero import DigitalInputDevice, DigitalOutputDevice
 from raspi_home_texx import file_logger
 from raspi_home_texx.system_info import SimpleSystemInfo, SystemInfo
-from raspi_home_texx.automation import Automation
 
+from src.base_automation import BaseAutomation
 from src.pinout import Pinout
 
 
-class AutomationImpl(Automation):
+class AutomationImpl(BaseAutomation):
+
     def __init__(self):
         super().__init__()
         self._alarm_pin = DigitalInputDevice(Pinout.SWITCH_ALARM_PIN, None, True, 0.300)

@@ -3,9 +3,10 @@ version: "3.8"
 services:
   backend:
     container_name: raspi-home-backend
-    image: synology-nas.home:5555/raspi-home-backend:latest
+    image: registry.texhome.lan/raspi-home-backend:latest
     environment:
       - GPIOZERO_PIN_FACTORY=mock
+      - TZ=Europe/Rome
     volumes:
       - ./.env.local:/opt/raspi-home/.env.local
     ports:

@@ -1,5 +1,5 @@
 from flask_restful import Resource, abort, reqparse
-from raspi_home_texx.automation import Automation
+from src.base_automation import BaseAutomation
 
 
 class CommandController(Resource):
@@ -10,7 +10,7 @@ class CommandController(Resource):
 
     def __init__(self, **kwargs) -> None:
         super().__init__()
-        self.automation: Automation = kwargs['automation']
+        self.automation: BaseAutomation = kwargs['automation']
         self.__create_commands()
         self.parser = reqparse.RequestParser()
         for arg in self.__class__.arguments:

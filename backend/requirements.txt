@@ -2,6 +2,7 @@
 Flask~=2.2
 flask-restful~=0.3.9
 flask-cors~=4.0
+requests~=2.32.3
 python-dotenv~=1.0
 pigpio~=1.78
 gpiozero~=1.6
