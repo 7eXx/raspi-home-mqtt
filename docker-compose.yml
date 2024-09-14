@@ -12,7 +12,7 @@ services:
       - 9001:9001
 
   backend:
-    image: registry.texhome.lan/raspi-home-backend:latest
+    image: registry.texhome.lan/raspi-home-backend:main
     environment:
       - GPIOZERO_PIN_FACTORY=mock
       - TZ=Europe/Rome
@@ -23,7 +23,7 @@ services:
       - 5000:5000
 
   webapp:
-    image: registry.texhome.lan/raspi-home-ionic:latest
+    image: registry.texhome.lan/raspi-home-ionic:main
     environment:
       - SERVER_NAME="app.texhome.lan"
       - BACKEND_URL="http://backend:5000"
