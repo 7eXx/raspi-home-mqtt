@@ -1,8 +1,8 @@
-version: "3.8"
 
 services:
   mosquitto:
     image: eclipse-mosquitto
+    user: "1883:1883"
     volumes:
       - ./docker/mosquitto/config:/mosquitto/config
       - ./docker/mosquitto/log:/mosquitto/log
