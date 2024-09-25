@@ -8,6 +8,10 @@ import src.environment as environment
 
 class StatusPublisher(Thread):
 
+    CA_CERT = "certs/ca.crt"
+    CLIENT_CERT = "certs/client.crt"
+    CLIENT_KEY = "certs/client.key"
+
     def __init__(self, automation: Automation):
         Thread.__init__(self)
         self.logger = get_console_logger(__name__, environment.LOGGING_LEVEL)
@@ -17,6 +21,8 @@ class StatusPublisher(Thread):
     def __create_status_client_publisher(self) -> None:
         self.connected_flag = False
         self.client = mqtt.Client(client_id=environment.CLIENT_ID, transport="websockets")
+        # setup certificates
+        self.client.tls_set(ca_certs=self.CA_CERT, certfile=self.CLIENT_CERT, keyfile=self.CLIENT_KEY)
         self.client.on_connect = self.__on_connect
         self.client.on_disconnect = self.__on_disconnect
         # Fix: In case network is not available this will throw exception
