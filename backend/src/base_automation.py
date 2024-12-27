@@ -36,3 +36,11 @@ class BaseAutomation(Automation, ABC):
         url += f"?{urllib.parse.urlencode(params)}"
 
         return url
+
+    def set_home_mode(self):
+        # TODO: add missing implementation
+        pass
+
+    def set_away_mode(self):
+        # TODO: add missing implementation
+        pass
