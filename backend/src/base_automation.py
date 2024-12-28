@@ -5,6 +5,7 @@ import requests as req
 from abc import ABC
 
 from src import environment as env
+from src.tapo_management import TapoManagement
 from raspi_home_texx.automation import Automation
 
 
@@ -14,6 +15,7 @@ class BaseAutomation(Automation, ABC):
 
     def __init__(self):
         super().__init__()
+        self.__tapo_management = TapoManagement()
 
     def wake_ryzen(self, **kwargs) -> bool:
         wake_ryzen_url = self.__build_trigger_job_url(env.RYZEN_MAC_ADDR)
@@ -38,9 +40,9 @@ class BaseAutomation(Automation, ABC):
         return url
 
     def set_home_mode(self):
-        # TODO: add missing implementation
-        pass
+        self.set_alarm_ecu(state=0)
+        self.__tapo_management.set_home_mode()
 
     def set_away_mode(self):
-        # TODO: add missing implementation
-        pass
+        self.set_gate_ecu(state=1)
+        self.__tapo_management.set_away_mode()
