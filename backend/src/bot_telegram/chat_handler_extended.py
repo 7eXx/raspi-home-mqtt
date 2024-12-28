@@ -42,15 +42,17 @@ class ChatHandlerExtended(ChatHandler):
 
         context.bot.send_message(chat_id=update.effective_chat.id, text=mess)
 
+    def __build_message_from_ecu_state(self, is_ecu_active: bool) -> str:
+        if not is_ecu_active:
+            return emoji.emojize("Modalità casa impostata :house:", use_aliases=True)
+        else:
+            return emoji.emojize("Modalità via impostata :police_car_light:", use_aliases=True)
+
     def home_mode(self, update: Update, context: CallbackContext):
         self._logger.info("imposto la modalità casa")
         if isinstance(self._automation, BaseAutomation):
             result = self._automation.set_home_mode()
-        else:
-            result = False
-
-        if result:
-            mess = emoji.emojize("Modalità casa impostata casa :house:", use_aliases=True)
+            mess = self.__build_message_from_ecu_state(result)
         else:
             mess = emoji.emojize("Non riesco ad impostare la modalità casa :cross_mark:", use_aliases=True)
 
@@ -60,12 +62,18 @@ class ChatHandlerExtended(ChatHandler):
         self._logger.info("imposto la modalità via")
         if isinstance(self._automation, BaseAutomation):
             result = self._automation.set_away_mode()
-        else:
-            result = False
-
-        if result:
-            mess = emoji.emojize("Modalità via impostata :police_car_light:", use_aliases=True)
+            mess = self.__build_message_from_ecu_state(result)
         else:
             mess = emoji.emojize("Non riesco ad impostare la modalità via :cross_mark:", use_aliases=True)
+
+        context.bot.send_message(chat_id=update.effective_chat.id, text=mess)
+
+    def home_away_mode_toggle(self, update: Update, context: CallbackContext):
+        self._logger.info("alterno tra modalità casa e via")
+        if isinstance(self._automation, BaseAutomation):
+            result = self._automation.home_away_mode_toggle()
+            mess = self.__build_message_from_ecu_state(result)
+        else:
+            mess = emoji.emojize("Non riesco a cambiare la modalità :cross_mark:", use_aliases=True)
 
         context.bot.send_message(chat_id=update.effective_chat.id, text=mess)

@@ -2,7 +2,7 @@ import urllib
 
 import requests as req
 
-from abc import ABC
+from abc import ABC, abstractmethod
 
 from src import environment as env
 from src.tapo_management import TapoManagement
@@ -43,10 +43,19 @@ class BaseAutomation(Automation, ABC):
         self.__tapo_management.set_home_mode()
         self.set_alarm_ecu(state=0)
 
-        return not self.is_alarm_ecu_active()
+        return self.is_alarm_ecu_active()
 
     def set_away_mode(self):
         self.__tapo_management.set_away_mode()
         self.set_alarm_ecu(state=1)
 
         return self.is_alarm_ecu_active()
+
+    def home_away_mode_toggle(self):
+        is_enable = self.is_alarm_ecu_active()
+        if not is_enable:
+            result = self.set_away_mode()
+        else:
+            result = self.set_home_mode()
+
+        return result
