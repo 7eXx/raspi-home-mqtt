@@ -40,13 +40,13 @@ class BaseAutomation(Automation, ABC):
         return url
 
     def set_home_mode(self):
-        self.set_alarm_ecu(state=0)
         self.__tapo_management.set_home_mode()
+        self.set_alarm_ecu(state=0)
 
         return not self.is_alarm_ecu_active()
 
     def set_away_mode(self):
-        self.set_alarm_ecu(state=1)
         self.__tapo_management.set_away_mode()
+        self.set_alarm_ecu(state=1)
 
         return self.is_alarm_ecu_active()
