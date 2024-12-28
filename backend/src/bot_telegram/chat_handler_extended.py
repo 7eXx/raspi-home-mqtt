@@ -24,7 +24,7 @@ class ChatHandlerExtended(ChatHandler):
         if result:
             mess = emoji.emojize("Sveglio il ryzen di Marco :computer_mouse:", use_aliases=True)
         else:
-            mess = emoji.emojize("Il pc non viene risvegliato :computer_mouse:", use_aliases=True)
+            mess = emoji.emojize("Il pc non viene risvegliato :cross_mark:", use_aliases=True)
 
         context.bot.send_message(chat_id=update.effective_chat.id, text=mess)
 
@@ -38,6 +38,34 @@ class ChatHandlerExtended(ChatHandler):
         if result:
             mess = emoji.emojize("Sveglio il lenovo di Luigi :computer_mouse:", use_aliases=True)
         else:
-            mess = emoji.emojize("Il pc non viene risvegliato :computer_mouse:", use_aliases=True)
+            mess = emoji.emojize("Il pc non viene risvegliato :cross_mark:", use_aliases=True)
+
+        context.bot.send_message(chat_id=update.effective_chat.id, text=mess)
+
+    def home_mode(self, update: Update, context: CallbackContext):
+        self._logger.info("imposto la modalità casa")
+        if isinstance(self._automation, BaseAutomation):
+            result = self._automation.set_home_mode()
+        else:
+            result = False
+
+        if result:
+            mess = emoji.emojize("Modalità casa impostata casa :house:", use_aliases=True)
+        else:
+            mess = emoji.emojize("Non riesco ad impostare la modalità casa :cross_mark:", use_aliases=True)
+
+        context.bot.send_message(chat_id=update.effective_chat.id, text=mess)
+
+    def away_mode(self, update: Update, context: CallbackContext):
+        self._logger.info("imposto la modalità via")
+        if isinstance(self._automation, BaseAutomation):
+            result = self._automation.set_away_mode()
+        else:
+            result = False
+
+        if result:
+            mess = emoji.emojize("Modalità via impostata :police_car_light:", use_aliases=True)
+        else:
+            mess = emoji.emojize("Non riesco ad impostare la modalità via :cross_mark:", use_aliases=True)
 
         context.bot.send_message(chat_id=update.effective_chat.id, text=mess)
