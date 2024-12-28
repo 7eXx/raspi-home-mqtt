@@ -40,16 +40,22 @@ class BaseAutomation(Automation, ABC):
         return url
 
     def set_home_mode(self):
-        self.__tapo_management.set_home_mode()
         self.set_alarm_ecu(state=0)
+        self.__tapo_management.set_home_mode()
 
         return self.is_alarm_ecu_active()
 
     def set_away_mode(self):
+        self.__retry_enable_alarm_ecu()
         self.__tapo_management.set_away_mode()
-        self.set_alarm_ecu(state=1)
 
         return self.is_alarm_ecu_active()
+
+    def __retry_enable_alarm_ecu(self):
+        i = 0
+        while not self.is_alarm_ecu_active() and i < 3:
+            self.set_alarm_ecu(state=1)
+            i = i + 1
 
     def home_away_mode_toggle(self):
         is_enable = self.is_alarm_ecu_active()
