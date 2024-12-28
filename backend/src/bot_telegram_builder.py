@@ -25,6 +25,8 @@ class BotTelegramBuilder(AbstractBotTelegramBuilder):
 
     def create_command_callbacks(self, commands: CommandsExtended, chat_handler: ChatHandlerExtended) -> [CommandCallback]:
         return [
+            CommandCallback(commands.HOME_MODE, chat_handler.home_mode),
+            CommandCallback(commands.AWAY_MODE, chat_handler.away_mode),
             CommandCallback(commands.WAKE_RYZE, chat_handler.wake_ryzen),
             CommandCallback(commands.WAKE_LUIGI, chat_handler.wake_luigi)
         ]

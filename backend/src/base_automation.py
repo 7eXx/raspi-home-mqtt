@@ -43,6 +43,10 @@ class BaseAutomation(Automation, ABC):
         self.set_alarm_ecu(state=0)
         self.__tapo_management.set_home_mode()
 
+        return not self.is_alarm_ecu_active()
+
     def set_away_mode(self):
-        self.set_gate_ecu(state=1)
+        self.set_alarm_ecu(state=1)
         self.__tapo_management.set_away_mode()
+
+        return self.is_alarm_ecu_active()
