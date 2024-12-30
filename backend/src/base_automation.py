@@ -53,7 +53,7 @@ class BaseAutomation(Automation, ABC):
         i = 0
         prev_state = self.is_alarm_ecu_active()
         new_state = self.set_alarm_ecu(state=1)
-        while self.is_alarm_ecu_test_mode(prev_state, new_state) and i < 3:
+        while self.is_alarm_ecu_test_mode(prev_state, new_state) and i < 1:
             prev_state = new_state
             new_state = self.set_alarm_ecu(state=1)
             i = i + 1

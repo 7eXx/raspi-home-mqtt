@@ -13,9 +13,11 @@ class AutomationMock(BaseAutomation):
 
     def __init__(self):
         super().__init__()
-        self.__alarm_pin = 1
-        self.__ecu_status_pin = 0
-        self.__gate_status_pin = 0
+        self.__alarm_pin = 1            # 1 means alarm is not ringing
+        self.__ecu_status_pin = 0       # 0 means ecu is not active
+        self.__gate_status_pin = 0      # 0 means gate is closed
+
+        self.__test_mode = False
 
         self._alarm_observers = []
 
@@ -41,8 +43,19 @@ class AutomationMock(BaseAutomation):
 
     def toggle_alarm_ecu(self, **kwargs) -> bool:
         sleep(AutomationMock.ALARM_ECU_WAIT_TIME)
-        self.__ecu_status_pin = int(not self.is_alarm_ecu_active())
+        # If test mode is enabled, the alarm ecu will not be activated
+        if not self.is_alarm_ecu_active() and not self.__test_mode:
+            self.__ecu_status_pin = 1
+            self.__test_mode = False
+        elif self.is_alarm_ecu_active():
+            self.__ecu_status_pin = 0
+            self.__test_mode = True
+        elif self.__test_mode:
+            self.__ecu_status_pin = 0
+            self.__test_mode = False
+
         self.__alarm_pin = 1
+
         return self.is_alarm_ecu_active()
 
     def anti_panic_mode(self, **kwargs) -> bool:
