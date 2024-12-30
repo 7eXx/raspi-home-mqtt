@@ -27,8 +27,8 @@ class TapoManagement:
 
     def __set_home_mode_c500(self):
         self.__tapo_c500.setMotionDetection(False)
-        self.__tapo_c500.setPersonDetection(False)
-        self.__tapo_c500.setTamperDetection(False)
+        self.__tapo_c500.setPersonDetection(True)
+        self.__tapo_c500.setTamperDetection(True)
         self.__tapo_c500.setAlarm(False)
         self.__tapo_c500.setNotificationsEnabled(False)
         self.__tapo_c500.setPrivacyMode(False)
@@ -42,7 +42,7 @@ class TapoManagement:
         self.__tapo_c200.setPrivacyMode(False)
 
     def __set_away_mode_c500(self):
-        self.__tapo_c500.setMotionDetection(True)
+        self.__tapo_c500.setMotionDetection(False)
         self.__tapo_c500.setPersonDetection(True)
         self.__tapo_c500.setTamperDetection(True)
         self.__tapo_c500.setAlarm(False)
