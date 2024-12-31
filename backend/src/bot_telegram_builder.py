@@ -1,18 +1,23 @@
-from typing import List
+from typing import List, overload
 
 from raspi_home_texx.automation import Automation
 from raspi_home_texx.bot.commands import Commands, CommandCallback
 from raspi_home_texx.bot_telegram import AbstractBotTelegramBuilder
+from telegram import ReplyKeyboardMarkup
 
 from src.bot_telegram.commands_extended import CommandsExtended
 from src.bot_telegram.chat_handler_extended import ChatHandlerExtended
 from src.bot_telegram.chat_filter_extended import ChatFilterExtended
+from src.bot_telegram.custom_keyboard_builder import CustomKeyboardBuilder
 
 
 class BotTelegramBuilder(AbstractBotTelegramBuilder):
 
     def __init__(self):
         super().__init__()
+
+    def create_custom_keyboard(self, chat_handler: ChatHandlerExtended) -> ReplyKeyboardMarkup:
+        return CustomKeyboardBuilder(chat_handler).build()
 
     def create_commands(self, name: str) -> CommandsExtended:
         return CommandsExtended(name)
