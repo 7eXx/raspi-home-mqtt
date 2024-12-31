@@ -68,7 +68,7 @@ class ChatHandlerExtended(ChatHandler):
 
         context.bot.send_message(chat_id=update.effective_chat.id, text=mess)
 
-    def home_away_mode_toggle(self, update: Update, context: CallbackContext):
+    def home_away_toggle(self, update: Update, context: CallbackContext):
         self._logger.info("alterno tra modalità casa e via")
         if isinstance(self._automation, BaseAutomation):
             result = self._automation.home_away_mode_toggle()
