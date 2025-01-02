@@ -24,6 +24,9 @@ class CommandController(Resource):
             "gate_ecu_toggle": self.automation.toggle_gate_ecu,
             "gate_ecu_set": self.automation.set_gate_ecu,
             "gate_stop_toggle": self.automation.stop_gate,
+            "home_mode_set": self.automation.try_set_home_mode,
+            "away_mode_set": self.automation.try_set_away_mode,
+            "home_away_toggle": self.automation.home_away_mode_toggle
         }
 
     def put(self):
