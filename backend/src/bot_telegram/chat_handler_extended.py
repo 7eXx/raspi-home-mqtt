@@ -51,7 +51,7 @@ class ChatHandlerExtended(ChatHandler):
     def home_mode(self, update: Update, context: CallbackContext):
         self._logger.info("imposto la modalità casa")
         if isinstance(self._automation, BaseAutomation):
-            result = self._automation.try_set_home_mode()
+            result = self._automation.set_home_away_mode(state=0)
             mess = self.__build_message_from_ecu_state(result)
         else:
             mess = emoji.emojize("Non riesco ad impostare la modalità casa :cross_mark:", use_aliases=True)
@@ -61,7 +61,7 @@ class ChatHandlerExtended(ChatHandler):
     def away_mode(self, update: Update, context: CallbackContext):
         self._logger.info("imposto la modalità via")
         if isinstance(self._automation, BaseAutomation):
-            result = self._automation.try_set_away_mode()
+            result = self._automation.set_home_away_mode(state=1)
             mess = self.__build_message_from_ecu_state(result)
         else:
             mess = emoji.emojize("Non riesco ad impostare la modalità via :cross_mark:", use_aliases=True)
