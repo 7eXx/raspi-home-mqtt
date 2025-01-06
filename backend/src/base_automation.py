@@ -13,9 +13,9 @@ class BaseAutomation(Automation, ABC):
 
     REQ_TIMEOUT = 5
 
-    def __init__(self):
+    def __init__(self, tapo_management: TapoManagement):
         super().__init__()
-        self.__tapo_management = TapoManagement()
+        self.__tapo_management = tapo_management
 
     def wake_ryzen(self, **kwargs) -> bool:
         wake_ryzen_url = self.__build_trigger_job_url(env.RYZEN_MAC_ADDR)

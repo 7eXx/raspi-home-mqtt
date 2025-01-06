@@ -11,8 +11,8 @@ class AutomationMock(BaseAutomation):
     GATE_ECU_WAIT_TIME = 0.5
     GATE_STOP_WAIT_TIME = 1
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, tapo_management):
+        super().__init__(tapo_management)
         self.__alarm_pin = 1            # 1 means alarm is not ringing
         self.__ecu_status_pin = 0       # 0 means ecu is not active
         self.__gate_status_pin = 0      # 0 means gate is closed

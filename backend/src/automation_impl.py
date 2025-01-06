@@ -5,12 +5,13 @@ from raspi_home_texx.system_info import SimpleSystemInfo, SystemInfo
 
 from src.base_automation import BaseAutomation
 from src.pinout import Pinout
+from src.tapo_management import TapoManagement
 
 
 class AutomationImpl(BaseAutomation):
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, tapo_management: TapoManagement):
+        super().__init__(tapo_management)
         self._alarm_pin = DigitalInputDevice(Pinout.SWITCH_ALARM_PIN, None, True, 0.300)
         self._alarm_pin.when_activated = self.__alarm_callback
         self._alarm_pin.when_deactivated = self.__alarm_callback

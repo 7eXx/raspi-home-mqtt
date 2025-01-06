@@ -13,6 +13,9 @@ from src.automation_impl import AutomationImpl
 from src.automation_mock import AutomationMock
 
 import src.environment as environment
+from src.tapo_management import TapoManagement
+from src.tapo_management_impl import TapoManagementImpl
+from src.tapo_management_mock import TapoManagementMock
 from src.wake_lenovo_controller import WakeLenovoController
 from src.wake_ryzen_controller import WakeRyzenController
 
@@ -22,11 +25,17 @@ app = Flask(__name__)
 CORS(app)
 api = Api(app)
 
+tapo_management: TapoManagement
+if os.getenv('TAPO_MANAGEMENT') == 'mock':
+    tapo_management = TapoManagementMock()
+else:
+    tapo_management = TapoManagementImpl()
+
 automation: Automation
 if os.getenv('GPIOZERO_PIN_FACTORY') == 'mock':
-    automation = AutomationMock()
+    automation = AutomationMock(tapo_management)
 else:
-    automation = AutomationImpl()
+    automation = AutomationImpl(tapo_management)
 
 bot = (BotTelegramBuilder()
        .set_token(environment.BOT_TOKEN)
