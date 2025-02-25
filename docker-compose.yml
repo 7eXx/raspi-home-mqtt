@@ -23,6 +23,13 @@ services:
     ports:
       - 5000:5000
 
+  alexa:
+    image: registry.texhome.lan/raspi-home-alexa:main
+    volumes:
+      - ./docker/alexa/.env.local:/opt/raspi-alexa/.env.local
+    ports:
+      - 3000:3000
+
   webapp:
     image: registry.texhome.lan/raspi-home-ionic:main
     environment:

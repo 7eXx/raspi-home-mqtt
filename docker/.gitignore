@@ -6,3 +6,6 @@ mosquitto/log/*
 
 # local env for backend
 backend/.env.local
+
+# local env for alexa
+alexa/.env.local
