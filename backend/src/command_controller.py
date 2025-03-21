@@ -18,9 +18,11 @@ class CommandController(Resource):
 
     def __create_commands(self):
         self.commands = {
+            "is_alarm_ecu_active": self.automation.is_alarm_ecu_active,
             "alarm_ecu_toggle": self.automation.toggle_alarm_ecu,
             "alarm_ecu_set": self.automation.set_alarm_ecu,
             "alarm_anti_panic_mode": self.automation.anti_panic_mode,
+            "is_gate_open": self.automation.is_gate_open,
             "gate_ecu_toggle": self.automation.toggle_gate_ecu,
             "gate_ecu_set": self.automation.set_gate_ecu,
             "gate_stop_toggle": self.automation.stop_gate,
@@ -36,7 +38,10 @@ class CommandController(Resource):
         if not self.is_command_valid(command):
             return abort(400, message="Command provided not available")
 
-        result = self.commands[command](state=state)
+        if state is None:
+            result = self.commands[command]()
+        else:
+            result = self.commands[command](state=state)
 
         return {'s': int(result)}, 200
 
