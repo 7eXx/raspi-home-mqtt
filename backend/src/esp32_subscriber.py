@@ -1,0 +1,38 @@
+from threading import Thread
+from time import sleep
+
+import paho.mqtt.client as mqtt
+from raspi_home_texx import get_console_logger
+from raspi_home_texx.automation import Automation
+from src import environment
+
+
+class Esp32Subscriber(Thread):
+
+    def __init__(self, automation: Automation):
+        Thread.__init__(self)
+        self.logger = get_console_logger(__name__, environment.LOGGING_LEVEL)
+        self.automation = automation
+        self.__create_temperature_subscriber()
+
+    def __create_temperature_subscriber(self):
+        self.mqtt_client = mqtt.Client()
+        self.mqtt_client.on_connect = self.__on_connect
+        self.mqtt_client.on_message = self.__on_message
+        self.mqtt_client.connect(environment.BROKER_HOST, int(environment.MQTT_PORT), 60)
+
+    def __on_connect(self, client, userdata, flags, rc):
+        self.logger.debug("Esp32 subscriber connected with result code "+str(rc))
+        self.mqtt_client.subscribe(environment.TEMPERATURE_TOPIC)
+        self.mqtt_client.subscribe(environment.HUMIDITY_TOPIC)
+
+    def __on_message(self, client, userdata, msg):
+        if msg.topic == environment.TEMPERATURE_TOPIC:
+            self.logger.debug("Temperature received - " + str(msg.payload))
+        elif msg.topic == environment.HUMIDITY_TOPIC:
+            self.logger.debug("Humidity received - " + str(msg.payload))
+
+    def run(self):
+        self.mqtt_client.loop_start()
+        while True:
+            sleep(environment.PUBLISH_TIMEOUT)
