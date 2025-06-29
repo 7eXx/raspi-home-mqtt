@@ -23,14 +23,10 @@ class Esp32Subscriber(Thread):
 
     def __on_connect(self, client, userdata, flags, rc):
         self.logger.debug("Esp32 subscriber connected with result code "+str(rc))
-        self.mqtt_client.subscribe(environment.TEMPERATURE_TOPIC)
-        self.mqtt_client.subscribe(environment.HUMIDITY_TOPIC)
+        self.mqtt_client.subscribe(environment.SENSORS_TOPIC)
 
     def __on_message(self, client, userdata, msg):
-        if msg.topic == environment.TEMPERATURE_TOPIC:
-            self.logger.debug("Temperature received - " + str(msg.payload))
-        elif msg.topic == environment.HUMIDITY_TOPIC:
-            self.logger.debug("Humidity received - " + str(msg.payload))
+        self.logger.debug("Sensors received - " + str(msg.payload))
 
     def run(self):
         self.mqtt_client.loop_start()
