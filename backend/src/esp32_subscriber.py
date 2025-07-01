@@ -5,6 +5,7 @@ import paho.mqtt.client as mqtt
 from raspi_home_texx import get_console_logger
 from raspi_home_texx.automation import Automation
 from src import environment
+from src.env_info_impl import EnvironmentInfoUnmarshaller
 
 
 class Esp32Subscriber(Thread):
@@ -26,7 +27,9 @@ class Esp32Subscriber(Thread):
         self.mqtt_client.subscribe(environment.SENSORS_TOPIC)
 
     def __on_message(self, client, userdata, msg):
-        self.logger.debug("Sensors received - " + str(msg.payload))
+        unmarshaller = EnvironmentInfoUnmarshaller(str(msg.payload))
+        env_info = unmarshaller.unmarshall()
+        self.automation.set_environment_info(env_info)
 
     def run(self):
         self.mqtt_client.loop_start()
