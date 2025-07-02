@@ -19,7 +19,7 @@ class StatusPublisher(Thread):
         self.client = mqtt.Client(client_id=environment.CLIENT_ID, transport="websockets")
         self.client.on_connect = self.__on_connect
         self.client.on_disconnect = self.__on_disconnect
-        # Fix: In case network is not available this will throw exception
+        # fixme: In case network is not available this will throw exception
         self.client.connect(environment.BROKER_HOST, int(environment.WEBSOCKET_PORT), 60)
 
     def __on_connect(self, client, userdata, flags, rc) -> None:

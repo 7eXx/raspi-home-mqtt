@@ -27,7 +27,7 @@ class Esp32Subscriber(Thread):
         self.mqtt_client.subscribe(environment.SENSORS_TOPIC)
 
     def __on_message(self, client, userdata, msg):
-        unmarshaller = EnvironmentInfoUnmarshaller(str(msg.payload))
+        unmarshaller = EnvironmentInfoUnmarshaller(msg.payload)
         env_info = unmarshaller.unmarshall()
         self.automation.set_environment_info(env_info)
 

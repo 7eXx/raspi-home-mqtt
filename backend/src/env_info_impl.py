@@ -6,19 +6,19 @@ from raspi_home_texx.datetime_builder import DatetimeStringBuilder
 
 class TemperatureInfo:
     def __init__(self):
-        self.value = -1000
-        self.unit = "C"
+        self.value = "n/a"
+        self.unit = "°C"
 
     def serialize(self):
-        return json.dumps(self.__dict__)
+        return json.dumps(self.__dict__, ensure_ascii=False)
 
 class HumidityInfo:
     def __init__(self):
-        self.value = -1000
+        self.value = "n/a"
         self.unit = "%"
 
     def serialize(self):
-        return json.dumps(self.__dict__)
+        return json.dumps(self.__dict__, ensure_ascii=False)
 
 
 class EnvironmentInfoImpl(EnvironmentInfo):
@@ -38,10 +38,8 @@ class EnvironmentInfoImpl(EnvironmentInfo):
         pass
 
 class EnvironmentInfoUnmarshaller:
-    def __init__(self, json_string):
-        #TODO: json string is in bytecode
-        # use: raw.decode('utf-8') before convert.
-        self.json_string = json_string
+    def __init__(self, json_string: bytes):
+        self.json_string = json_string.decode("utf-8")
 
     def unmarshall(self) -> EnvironmentInfo:
         env_data = json.loads(self.json_string)
