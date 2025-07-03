@@ -4,7 +4,7 @@ from raspi_home_texx.environment_info import EnvironmentInfo
 from raspi_home_texx.datetime_builder import DatetimeStringBuilder
 
 
-class TemperatureInfo:
+class TemperatureInfo():
     def __init__(self):
         self.value = "n/a"
         self.unit = "°C"
@@ -12,7 +12,10 @@ class TemperatureInfo:
     def serialize(self):
         return json.dumps(self.__dict__, ensure_ascii=False)
 
-class HumidityInfo:
+    def format_pretty(self):
+        pass
+
+class HumidityInfo():
     def __init__(self):
         self.value = "n/a"
         self.unit = "%"
@@ -20,22 +23,37 @@ class HumidityInfo:
     def serialize(self):
         return json.dumps(self.__dict__, ensure_ascii=False)
 
+    def format_pretty(self):
+        pass
+
 
 class EnvironmentInfoImpl(EnvironmentInfo):
-    def __init__(self):
+    def __init__(self, status: str = "n/a"):
+        super().__init__(status)
         self.timestamp = DatetimeStringBuilder().now()
         self.temperature = TemperatureInfo()
         self.humidity = HumidityInfo()
 
     def serialize(self) -> str:
-        output = f'{{"timestamp": "{self.timestamp}"'
+        output = f'{{"status": "{self._status}"'
+        output += f', "timestamp": "{self.timestamp}"'
         output += f', "temperature": {self.temperature.serialize()}'
         output += f', "humidity": {self.humidity.serialize()}}}'
 
         return output
 
     def format_pretty(self) -> str:
-        pass
+        output = "Environment Info: \n"
+        output += "--------------------------------------------\n"
+        output += f'"timestamp" : "{self.timestamp}"' + "\n"
+        output += "--------------------------------------------\n"
+        output += f'"status" : "{self._status}"' + "\n"
+        output += "--------------------------------------------\n"
+        output += self.temperature.format_pretty()
+        output += "--------------------------------------------\n"
+        output += self.humidity.format_pretty()
+
+        return output
 
 class EnvironmentInfoUnmarshaller:
     def __init__(self, json_string: bytes):
@@ -51,7 +69,7 @@ class EnvironmentInfoUnmarshaller:
         temperature = self.__extract_temperature(env_data["temperature"])
         hum_data = self.__extract_humidity(env_data["humidity"])
 
-        environment_info = EnvironmentInfoImpl()
+        environment_info = EnvironmentInfoImpl("online")
         environment_info.temperature = temperature
         environment_info.humidity = hum_data
 

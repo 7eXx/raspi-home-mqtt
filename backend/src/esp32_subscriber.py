@@ -12,6 +12,7 @@ class Esp32Subscriber(Thread):
 
     def __init__(self, automation: Automation):
         Thread.__init__(self)
+        self.retry_count = 0
         self.logger = get_console_logger(__name__, environment.LOGGING_LEVEL)
         self.automation = automation
         self.__create_temperature_subscriber()
@@ -30,8 +31,16 @@ class Esp32Subscriber(Thread):
         unmarshaller = EnvironmentInfoUnmarshaller(msg.payload)
         env_info = unmarshaller.unmarshall()
         self.automation.set_environment_info(env_info)
+        self.retry_count = 0
 
     def run(self):
         self.mqtt_client.loop_start()
         while True:
+            if self.retry_count > 10:
+                self.logger.warning("Timeout receive environemnt data from esp32")
+                self.automation.environment_info().set_status("offline")
+                self.retry_count = 0
+
             sleep(environment.PUBLISH_TIMEOUT)
+            self.retry_count += 1
+
