@@ -42,11 +42,14 @@ class Esp32Subscriber(Thread):
             with self.lock:
                 if self.retry_count > 10:
                     self.logger.warning("Timeout receive environemnt data from esp32")
-                    self.automation.environment_info().set_status("offline")
+                    self.__set_offline_env_info()
                     self.retry_count = 0
                 self.retry_count += 1
 
-
+    def __set_offline_env_info(self):
+        status = self.automation.environment_info().get_status()
+        if status == "online":
+            self.automation.environment_info().set_status("offline")
 
 
 
