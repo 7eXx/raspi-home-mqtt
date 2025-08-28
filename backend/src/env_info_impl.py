@@ -30,7 +30,7 @@ class HumidityInfo():
 class EnvironmentInfoImpl(EnvironmentInfo):
     def __init__(self, status: str = "n/a"):
         super().__init__(status)
-        self.timestamp = DatetimeStringBuilder().now()
+        self.timestamp = 'n/a'
         self.temperature = TemperatureInfo()
         self.humidity = HumidityInfo()
 
@@ -70,6 +70,7 @@ class EnvironmentInfoUnmarshaller:
         hum_data = self.__extract_humidity(env_data["humidity"])
 
         environment_info = EnvironmentInfoImpl("online")
+        environment_info.timestamp = DatetimeStringBuilder().now()
         environment_info.temperature = temperature
         environment_info.humidity = hum_data
 
