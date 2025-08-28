@@ -46,6 +46,7 @@ class Esp32Subscriber(Thread):
                     self.retry_count = 0
                 self.retry_count += 1
 
+    # set offline status only if previous was online
     def __set_offline_env_info(self):
         status = self.automation.environment_info().get_status()
         if status == "online":
