@@ -4,6 +4,7 @@ from raspi_home_texx import file_logger
 from raspi_home_texx.system_info import SimpleSystemInfo, SystemInfo
 
 from src.base_automation import BaseAutomation
+from src.env_info_impl import EnvironmentInfoImpl
 from src.pinout import Pinout
 from src.tapo_management import TapoManagement
 
@@ -22,6 +23,8 @@ class AutomationImpl(BaseAutomation):
         self._ecu_toggle_pin = DigitalOutputDevice(Pinout.TOGGLE_ECU_PIN, True, False)
         self._gate_switch_pin = DigitalOutputDevice(Pinout.SWITCH_GATE_PIN)
         self._gate_stop_pin = DigitalOutputDevice(Pinout.STOP_GATE_PIN)
+
+        self._env_info = EnvironmentInfoImpl()
 
         self._alarm_observers = []
 

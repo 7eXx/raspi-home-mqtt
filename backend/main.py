@@ -7,6 +7,7 @@ from raspi_home_texx import get_console_logger, file_logger
 
 from src.bot_telegram_builder import BotTelegramBuilder
 from src.command_controller import CommandController
+from src.esp32_subscriber import Esp32Subscriber
 from src.status_publisher import StatusPublisher
 from raspi_home_texx.automation import Automation
 from src.automation_impl import AutomationImpl
@@ -50,6 +51,9 @@ bot.send_message_to_list(emoji.emojize("Bot gestione allarme pronto :thumbsup:",
 
 status_publisher = StatusPublisher(automation)
 status_publisher.start()
+
+esp32_subscriber = Esp32Subscriber(automation)
+esp32_subscriber.start()
 
 api.add_resource(CommandController, "/api/command", resource_class_kwargs={'automation': automation})
 api.add_resource(WakeRyzenController, "/api/wake_ryzen", resource_class_kwargs={'automation': automation})

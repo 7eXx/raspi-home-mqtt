@@ -12,7 +12,7 @@ services:
       - 9001:9001
 
   backend:
-    image: registry.texhome.lan/raspi-home-backend:main
+    image: registry.texhome.lan/raspi-home-backend:latest
     environment:
       - GPIOZERO_PIN_FACTORY=mock
       - TAPO_MANAGEMENT=mock

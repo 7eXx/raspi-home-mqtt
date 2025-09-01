@@ -1,7 +1,9 @@
 from time import sleep
+
 from raspi_home_texx.system_info import SystemInfo, SimpleSystemInfo
 
 from src.base_automation import BaseAutomation
+from src.env_info_impl import EnvironmentInfoImpl
 
 
 class AutomationMock(BaseAutomation):
@@ -18,6 +20,8 @@ class AutomationMock(BaseAutomation):
         self.__gate_status_pin = 0      # 0 means gate is closed
 
         self.__test_mode = False
+
+        self._env_info = EnvironmentInfoImpl()
 
         self._alarm_observers = []
 
