@@ -12,8 +12,9 @@ class TemperatureInfo():
     def serialize(self):
         return json.dumps(self.__dict__, ensure_ascii=False)
 
-    def format_pretty(self):
-        pass
+    def format_pretty(self) -> str:
+        return f'"temperature" : {self.value} {self.unit}'
+
 
 class HumidityInfo():
     def __init__(self):
@@ -23,20 +24,19 @@ class HumidityInfo():
     def serialize(self):
         return json.dumps(self.__dict__, ensure_ascii=False)
 
-    def format_pretty(self):
-        pass
+    def format_pretty(self) -> str:
+        return f'"humidity" : {self.value} {self.unit}'
 
 
 class EnvironmentInfoImpl(EnvironmentInfo):
     def __init__(self, status: str = "n/a"):
         super().__init__(status)
-        self.timestamp = 'n/a'
         self.temperature = TemperatureInfo()
         self.humidity = HumidityInfo()
 
     def serialize(self) -> str:
         output = f'{{"status": "{self._status}"'
-        output += f', "timestamp": "{self.timestamp}"'
+        output += f', "timestamp": "{self._timestamp}"'
         output += f', "temperature": {self.temperature.serialize()}'
         output += f', "humidity": {self.humidity.serialize()}}}'
 
@@ -44,13 +44,10 @@ class EnvironmentInfoImpl(EnvironmentInfo):
 
     def format_pretty(self) -> str:
         output = "Environment Info: \n"
-        output += "--------------------------------------------\n"
-        output += f'"timestamp" : "{self.timestamp}"' + "\n"
-        output += "--------------------------------------------\n"
+        output += f'"timestamp" : "{self._timestamp}"' + "\n"
         output += f'"status" : "{self._status}"' + "\n"
         output += "--------------------------------------------\n"
-        output += self.temperature.format_pretty()
-        output += "--------------------------------------------\n"
+        output += self.temperature.format_pretty() + "\n"
         output += self.humidity.format_pretty()
 
         return output
@@ -70,7 +67,7 @@ class EnvironmentInfoUnmarshaller:
         hum_data = self.__extract_humidity(env_data["humidity"])
 
         environment_info = EnvironmentInfoImpl("online")
-        environment_info.timestamp = DatetimeStringBuilder().now()
+        environment_info._timestamp = DatetimeStringBuilder().now()
         environment_info.temperature = temperature
         environment_info.humidity = hum_data
 
