@@ -77,3 +77,13 @@ class ChatHandlerExtended(ChatHandler):
             mess = emoji.emojize("Non riesco a cambiare la modalità :cross_mark:", use_aliases=True)
 
         context.bot.send_message(chat_id=update.effective_chat.id, text=mess)
+
+    def environment_info(self, update: Update, context: CallbackContext):
+        self._logger.info("recupero le informazioni sull'ambiente")
+        if isinstance(self._automation, BaseAutomation):
+            #TODO: retrieve information from automation object
+            mess = emoji.emojize("Informazioni ambientali disponibili :white_check_mark:", use_aliases=True)
+        else:
+            mess = emoji.emojize("Informazioni ambientali non disponibili :cross_mark:", use_aliases=True)
+
+        context.bot.send_message(chat_id=update.effective_chat.id, text=mess)
