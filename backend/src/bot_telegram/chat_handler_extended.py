@@ -77,3 +77,24 @@ class ChatHandlerExtended(ChatHandler):
             mess = emoji.emojize("Non riesco a cambiare la modalità :cross_mark:", use_aliases=True)
 
         context.bot.send_message(chat_id=update.effective_chat.id, text=mess)
+
+    def environment_info(self, update: Update, context: CallbackContext):
+        self._logger.info("recupero le informazioni sull'ambiente")
+        if isinstance(self._automation, BaseAutomation):
+            #TODO: retrieve information from automation object
+            mess = self.__build_env_message()
+        else:
+            mess = emoji.emojize("Informazioni ambientali non disponibili :cross_mark:", use_aliases=True)
+
+        context.bot.send_message(chat_id=update.effective_chat.id, text=mess)
+
+    def __build_env_message(self) -> str:
+        status = self._automation.environment_info().get_status()
+        if status == 'n/a':
+            return emoji.emojize("Informazioni ambientali non disponibili :cross_mark:", use_aliases=True, )
+        elif status == 'offline':
+            offline_since = self._automation.environment_info().get_timestamp()
+
+            return emoji.emojize(f"Sensore offline da {offline_since} :cross_mark:", use_aliases=True)
+        else:
+            return self._automation.environment_info().format_pretty()

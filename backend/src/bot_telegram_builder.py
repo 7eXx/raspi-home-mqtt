@@ -28,11 +28,13 @@ class BotTelegramBuilder(AbstractBotTelegramBuilder):
     def create_chat_filter(self, list_id: List[int]) -> ChatFilterExtended:
         return ChatFilterExtended(list_id)
 
-    def create_command_callbacks(self, commands: CommandsExtended, chat_handler: ChatHandlerExtended) -> [CommandCallback]:
+    def create_command_callbacks(self, commands: CommandsExtended, chat_handler: ChatHandlerExtended) -> list[
+        CommandCallback]:
         return [
             CommandCallback(commands.HOME_MODE, chat_handler.home_mode),
             CommandCallback(commands.AWAY_MODE, chat_handler.away_mode),
             CommandCallback(commands.HOME_AWAY_TOGGLE, chat_handler.home_away_toggle),
+            CommandCallback(commands.ENVIRONMENT_INFO, chat_handler.environment_info),
             CommandCallback(commands.WAKE_RYZE, chat_handler.wake_ryzen),
-            CommandCallback(commands.WAKE_LUIGI, chat_handler.wake_luigi)
+            CommandCallback(commands.WAKE_LUIGI, chat_handler.wake_luigi),
         ]
