@@ -27,7 +27,8 @@ class CommandController(Resource):
             "gate_ecu_set": self.automation.set_gate_ecu,
             "gate_stop_toggle": self.automation.stop_gate,
             "home_away_mode_set": self.automation.set_home_away_mode,
-            "home_away_toggle": self.automation.home_away_mode_toggle
+            "home_away_toggle": self.automation.home_away_mode_toggle,
+            "environment_info_get": self.automation.environment_info().to_dict
         }
 
     def put(self):
@@ -43,7 +44,10 @@ class CommandController(Resource):
         else:
             result = self.commands[command](state=state)
 
-        return {'s': int(result)}, 200
+        if isinstance(result, bool):
+            return {'s': int(result)}, 200
+        # return as it is
+        return result, 200
 
     def is_command_valid(self, command: str) -> bool:
         return command in self.commands

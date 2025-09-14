@@ -81,7 +81,6 @@ class ChatHandlerExtended(ChatHandler):
     def environment_info(self, update: Update, context: CallbackContext):
         self._logger.info("recupero le informazioni sull'ambiente")
         if isinstance(self._automation, BaseAutomation):
-            #TODO: retrieve information from automation object
             mess = self.__build_env_message()
         else:
             mess = emoji.emojize("Informazioni ambientali non disponibili :cross_mark:", use_aliases=True)

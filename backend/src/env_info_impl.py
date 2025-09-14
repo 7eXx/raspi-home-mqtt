@@ -15,6 +15,12 @@ class TemperatureInfo():
     def format_pretty(self) -> str:
         return f'"temperature" : {self.value} {self.unit}'
 
+    def to_dict(self) -> dict:
+        return {
+            "value": self.value,
+            "unit": self.unit
+        }
+
 
 class HumidityInfo():
     def __init__(self):
@@ -26,6 +32,12 @@ class HumidityInfo():
 
     def format_pretty(self) -> str:
         return f'"humidity" : {self.value} {self.unit}'
+
+    def to_dict(self) -> dict:
+        return {
+            "value": self.value,
+            "unit": self.unit
+        }
 
 
 class EnvironmentInfoImpl(EnvironmentInfo):
@@ -51,6 +63,14 @@ class EnvironmentInfoImpl(EnvironmentInfo):
         output += self.humidity.format_pretty()
 
         return output
+
+    def to_dict(self) -> dict:
+        return {
+            "status": self._status,
+            "timestamp": self._timestamp,
+            "temperature": self.temperature.to_dict(),
+            "humidity": self.humidity.to_dict()
+        }
 
 class EnvironmentInfoUnmarshaller:
     def __init__(self, json_string: bytes):
