@@ -1,4 +1,3 @@
-import emoji
 from raspi_home_texx.bot.commands import Commands
 
 
@@ -9,12 +8,6 @@ class CommandsExtended(Commands):
     ENVIRONMENT_INFO = "environment_info"
     WAKE_RYZE = "wake_ryzen"
     WAKE_LUIGI = "wake_luigi_lenovo"
-
-    ## emojized commands
-    HOME_AWAY_TOGGLE_EMOJI = emoji.emojize("Home/Away toggle :house:", use_aliases=True)
-    ECU_CHECK_EMOJI = emoji.emojize("Home check :house::red_question_mark:", use_aliases=True)
-    GATE_TOGGLE_EMOJI = emoji.emojize("Gate toggle :door:", use_aliases=True)
-    GATE_CHECK_EMOJI = emoji.emojize("Gate check :door::red_question_mark:", use_aliases=True)
 
     def __init__(self, name: str):
         super().__init__(name)
