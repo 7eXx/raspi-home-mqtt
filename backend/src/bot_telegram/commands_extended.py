@@ -1,4 +1,3 @@
-
 from raspi_home_texx.bot.commands import Commands
 
 

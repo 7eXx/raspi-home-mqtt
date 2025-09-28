@@ -1,7 +1,7 @@
-from typing import List, overload
+from typing import List
 
 from raspi_home_texx.automation import Automation
-from raspi_home_texx.bot.commands import Commands, CommandCallback
+from raspi_home_texx.bot.commands import Commands, CommandCallback, MessageCallback
 from raspi_home_texx.bot_telegram import AbstractBotTelegramBuilder
 from telegram import ReplyKeyboardMarkup
 
@@ -9,6 +9,7 @@ from src.bot_telegram.commands_extended import CommandsExtended
 from src.bot_telegram.chat_handler_extended import ChatHandlerExtended
 from src.bot_telegram.chat_filter_extended import ChatFilterExtended
 from src.bot_telegram.custom_keyboard_builder import CustomKeyboardBuilder
+from src.bot_telegram.messages import Messages
 
 
 class BotTelegramBuilder(AbstractBotTelegramBuilder):
@@ -28,13 +29,21 @@ class BotTelegramBuilder(AbstractBotTelegramBuilder):
     def create_chat_filter(self, list_id: List[int]) -> ChatFilterExtended:
         return ChatFilterExtended(list_id)
 
-    def create_command_callbacks(self, commands: CommandsExtended, chat_handler: ChatHandlerExtended) -> list[
+    def create_command_callbacks(self, chat_handler: ChatHandlerExtended) -> list[
         CommandCallback]:
         return [
-            CommandCallback(commands.HOME_MODE, chat_handler.home_mode),
-            CommandCallback(commands.AWAY_MODE, chat_handler.away_mode),
-            CommandCallback(commands.HOME_AWAY_TOGGLE, chat_handler.home_away_toggle),
-            CommandCallback(commands.ENVIRONMENT_INFO, chat_handler.environment_info),
-            CommandCallback(commands.WAKE_RYZE, chat_handler.wake_ryzen),
-            CommandCallback(commands.WAKE_LUIGI, chat_handler.wake_luigi),
+            CommandCallback(CommandsExtended.HOME_MODE, chat_handler.home_mode),
+            CommandCallback(CommandsExtended.AWAY_MODE, chat_handler.away_mode),
+            CommandCallback(CommandsExtended.HOME_AWAY_TOGGLE, chat_handler.home_away_toggle),
+            CommandCallback(CommandsExtended.ENVIRONMENT_INFO, chat_handler.environment_info),
+            CommandCallback(CommandsExtended.WAKE_RYZE, chat_handler.wake_ryzen),
+            CommandCallback(CommandsExtended.WAKE_LUIGI, chat_handler.wake_luigi)
+        ]
+
+    def create_message_callbacks(self, chat_handler: ChatHandlerExtended) -> list[MessageCallback]:
+        return [
+            MessageCallback(Messages.HOME_AWAY_TOGGLE_EMOJI, chat_handler.home_away_toggle),
+            MessageCallback(Messages.ECU_CHECK_EMOJI, chat_handler.ecu_check),
+            MessageCallback(Messages.GATE_TOGGLE_EMOJI, chat_handler.gate_toggle),
+            MessageCallback(Messages.GATE_CHECK_EMOJI, chat_handler.gate_check)
         ]
