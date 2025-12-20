@@ -1,4 +1,6 @@
 import logging
+from typing import Optional
+
 from pytapo import Tapo
 
 from src import environment as env
@@ -7,8 +9,8 @@ from src.tapo_management import TapoManagement
 
 class TapoManagementImpl(TapoManagement):
 
-    __tapo_c200: Tapo | None = None
-    __tapo_c500: Tapo | None = None
+    __tapo_c200: Optional[Tapo] = None
+    __tapo_c500: Optional[Tapo] = None
 
     def __init__(self):
         super().__init__()
