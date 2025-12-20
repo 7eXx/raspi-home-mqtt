@@ -1,7 +1,7 @@
-import logging
 from typing import Optional
 
 from pytapo import Tapo
+from raspi_home_texx import get_console_logger
 
 from src import environment as env
 from src.tapo_management import TapoManagement
@@ -14,33 +14,30 @@ class TapoManagementImpl(TapoManagement):
 
     def __init__(self):
         super().__init__()
+        self.logger = get_console_logger(__name__, env.LOGGING_LEVEL)
         try:
             self.__tapo_c200 = Tapo(env.TAPO_C200_IP, env.TAPO_USERNAME, env.TAPO_PASSWORD)
         except:
-            logging.warning("Tapo C200 not reachable")
+            self.logger.warning("Tapo C200 not reachable")
             self.__tapo_c200 = None
 
         try:
             self.__tapo_c500 = Tapo(env.TAPO_C500_IP, env.TAPO_USERNAME, env.TAPO_PASSWORD)
         except:
-            logging.warning("Tapo C500 not reachable")
+            self.logger.warning("Tapo C500 not reachable")
             self.__tapo_c500 = None
 
     def set_home_mode(self):
-        if self.__tapo_c200 is not None:
-            self.__set_home_mode_c200()
-        if self.__tapo_c500 is not None:
-            self.__set_home_mode_c500()
+        self.__set_home_mode_c200()
+        self.__set_home_mode_c500()
 
     def set_away_mode(self):
-        if self.__tapo_c200 is not None:
-            self.__set_away_mode_c200()
-        if self.__tapo_c500 is not None:
-            self.__set_away_mode_c500()
+        self.__set_away_mode_c200()
+        self.__set_away_mode_c500()
 
     def __set_home_mode_c200(self):
         if self.__tapo_c200 is None:
-            logging.warning("Tapo C200 not reachable")
+            self.logger.warning("Tapo C200 not reachable")
             return
 
         self.__tapo_c200.setMotionDetection(False)
@@ -52,7 +49,7 @@ class TapoManagementImpl(TapoManagement):
 
     def __set_home_mode_c500(self):
         if self.__tapo_c500 is None:
-            logging.warning("Tapo C500 not reachable")
+            self.logger.warning("Tapo C500 not reachable")
             return
 
         self.__tapo_c500.setMotionDetection(False)
@@ -64,7 +61,7 @@ class TapoManagementImpl(TapoManagement):
 
     def __set_away_mode_c200(self):
         if self.__tapo_c200 is None:
-            logging.warning("Tapo C200 not reachable")
+            self.logger.warning("Tapo C200 not reachable")
             return
 
         self.__tapo_c200.setMotionDetection(True)
@@ -76,7 +73,7 @@ class TapoManagementImpl(TapoManagement):
 
     def __set_away_mode_c500(self):
         if self.__tapo_c500 is None:
-            logging.warning("Tapo C500 not reachable")
+            self.logger.warning("Tapo C500 not reachable")
             return
 
         self.__tapo_c500.setMotionDetection(False)
