@@ -1,5 +1,7 @@
+from typing import Optional
 
 from pytapo import Tapo
+from raspi_home_texx import get_console_logger
 
 from src import environment as env
 from src.tapo_management import TapoManagement
@@ -7,10 +9,23 @@ from src.tapo_management import TapoManagement
 
 class TapoManagementImpl(TapoManagement):
 
+    __tapo_c200: Optional[Tapo] = None
+    __tapo_c500: Optional[Tapo] = None
+
     def __init__(self):
         super().__init__()
-        self.__tapo_c200 = Tapo(env.TAPO_C200_IP, env.TAPO_USERNAME, env.TAPO_PASSWORD)
-        self.__tapo_c500 = Tapo(env.TAPO_C500_IP, env.TAPO_USERNAME, env.TAPO_PASSWORD)
+        self.logger = get_console_logger(__name__, env.LOGGING_LEVEL)
+        try:
+            self.__tapo_c200 = Tapo(env.TAPO_C200_IP, env.TAPO_USERNAME, env.TAPO_PASSWORD)
+        except:
+            self.logger.warning("Tapo C200 not reachable")
+            self.__tapo_c200 = None
+
+        try:
+            self.__tapo_c500 = Tapo(env.TAPO_C500_IP, env.TAPO_USERNAME, env.TAPO_PASSWORD)
+        except:
+            self.logger.warning("Tapo C500 not reachable")
+            self.__tapo_c500 = None
 
     def set_home_mode(self):
         self.__set_home_mode_c200()
@@ -21,6 +36,10 @@ class TapoManagementImpl(TapoManagement):
         self.__set_away_mode_c500()
 
     def __set_home_mode_c200(self):
+        if self.__tapo_c200 is None:
+            self.logger.warning("Tapo C200 not reachable")
+            return
+
         self.__tapo_c200.setMotionDetection(False)
         self.__tapo_c200.setPersonDetection(False)
         self.__tapo_c200.setTamperDetection(False)
@@ -29,6 +48,10 @@ class TapoManagementImpl(TapoManagement):
         self.__tapo_c200.setPrivacyMode(True)
 
     def __set_home_mode_c500(self):
+        if self.__tapo_c500 is None:
+            self.logger.warning("Tapo C500 not reachable")
+            return
+
         self.__tapo_c500.setMotionDetection(False)
         self.__tapo_c500.setPersonDetection(True)
         self.__tapo_c500.setTamperDetection(True)
@@ -37,6 +60,10 @@ class TapoManagementImpl(TapoManagement):
         self.__tapo_c500.setPrivacyMode(False)
 
     def __set_away_mode_c200(self):
+        if self.__tapo_c200 is None:
+            self.logger.warning("Tapo C200 not reachable")
+            return
+
         self.__tapo_c200.setMotionDetection(True)
         self.__tapo_c200.setPersonDetection(True)
         self.__tapo_c200.setTamperDetection(True)
@@ -45,6 +72,10 @@ class TapoManagementImpl(TapoManagement):
         self.__tapo_c200.setPrivacyMode(False)
 
     def __set_away_mode_c500(self):
+        if self.__tapo_c500 is None:
+            self.logger.warning("Tapo C500 not reachable")
+            return
+
         self.__tapo_c500.setMotionDetection(False)
         self.__tapo_c500.setPersonDetection(True)
         self.__tapo_c500.setTamperDetection(True)
