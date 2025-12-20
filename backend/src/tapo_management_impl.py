@@ -9,16 +9,27 @@ class TapoManagementImpl(TapoManagement):
 
     def __init__(self):
         super().__init__()
-        self.__tapo_c200 = Tapo(env.TAPO_C200_IP, env.TAPO_USERNAME, env.TAPO_PASSWORD)
-        self.__tapo_c500 = Tapo(env.TAPO_C500_IP, env.TAPO_USERNAME, env.TAPO_PASSWORD)
+        try:
+            self.__tapo_c200 = Tapo(env.TAPO_C200_IP, env.TAPO_USERNAME, env.TAPO_PASSWORD)
+        except:
+            self.__tapo_c200 = None
+
+        try:
+            self.__tapo_c500 = Tapo(env.TAPO_C500_IP, env.TAPO_USERNAME, env.TAPO_PASSWORD)
+        except:
+            self.__tapo_c500 = None
 
     def set_home_mode(self):
-        self.__set_home_mode_c200()
-        self.__set_home_mode_c500()
+        if self.__tapo_c200 is not None:
+            self.__set_home_mode_c200()
+        if self.__tapo_c500 is not None:
+            self.__set_home_mode_c500()
 
     def set_away_mode(self):
-        self.__set_away_mode_c200()
-        self.__set_away_mode_c500()
+        if self.__tapo_c200 is not None:
+            self.__set_away_mode_c200()
+        if self.__tapo_c500 is not None:
+            self.__set_away_mode_c500()
 
     def __set_home_mode_c200(self):
         self.__tapo_c200.setMotionDetection(False)
