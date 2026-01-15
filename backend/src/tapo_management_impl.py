@@ -15,11 +15,22 @@ class TapoManagementImpl(TapoManagement):
     def __init__(self):
         super().__init__()
         self.logger = get_console_logger(__name__, env.LOGGING_LEVEL)
+        self.__try_initialize_tapo_c200()
+        self.__try_initialize_tapo_c500()
+
+    def __try_initialize_tapo_c200(self):
+        if self.__tapo_c200 is not None:
+            return
+
         try:
             self.__tapo_c200 = Tapo(env.TAPO_C200_IP, env.TAPO_USERNAME, env.TAPO_PASSWORD)
         except:
             self.logger.warning("Tapo C200 not reachable")
             self.__tapo_c200 = None
+
+    def __try_initialize_tapo_c500(self):
+        if self.__tapo_c500 is not None:
+            return
 
         try:
             self.__tapo_c500 = Tapo(env.TAPO_C500_IP, env.TAPO_USERNAME, env.TAPO_PASSWORD)
@@ -36,8 +47,8 @@ class TapoManagementImpl(TapoManagement):
         self.__set_away_mode_c500()
 
     def __set_home_mode_c200(self):
+        self.__try_initialize_tapo_c200()
         if self.__tapo_c200 is None:
-            self.logger.warning("Tapo C200 not reachable")
             return
 
         self.__tapo_c200.setMotionDetection(False)
@@ -48,8 +59,8 @@ class TapoManagementImpl(TapoManagement):
         self.__tapo_c200.setPrivacyMode(True)
 
     def __set_home_mode_c500(self):
+        self.__try_initialize_tapo_c500()
         if self.__tapo_c500 is None:
-            self.logger.warning("Tapo C500 not reachable")
             return
 
         self.__tapo_c500.setMotionDetection(False)
@@ -60,8 +71,8 @@ class TapoManagementImpl(TapoManagement):
         self.__tapo_c500.setPrivacyMode(False)
 
     def __set_away_mode_c200(self):
+        self.__try_initialize_tapo_c200()
         if self.__tapo_c200 is None:
-            self.logger.warning("Tapo C200 not reachable")
             return
 
         self.__tapo_c200.setMotionDetection(True)
@@ -72,8 +83,8 @@ class TapoManagementImpl(TapoManagement):
         self.__tapo_c200.setPrivacyMode(False)
 
     def __set_away_mode_c500(self):
+        self.__try_initialize_tapo_c500()
         if self.__tapo_c500 is None:
-            self.logger.warning("Tapo C500 not reachable")
             return
 
         self.__tapo_c500.setMotionDetection(False)
