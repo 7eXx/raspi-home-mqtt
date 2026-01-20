@@ -39,14 +39,14 @@ class TapoManagementImpl(TapoManagement):
             self.__tapo_c500 = None
 
     def set_home_mode(self):
-        self.__set_home_mode_c200()
-        self.__set_home_mode_c500()
+        self.set_home_mode_c200()
+        self.set_home_mode_c500()
 
     def set_away_mode(self):
-        self.__set_away_mode_c200()
-        self.__set_away_mode_c500()
+        self.set_away_mode_c200()
+        self.set_away_mode_c500()
 
-    def __set_home_mode_c200(self):
+    def set_home_mode_c200(self):
         self.__try_initialize_tapo_c200()
         if self.__tapo_c200 is None:
             return
@@ -61,7 +61,7 @@ class TapoManagementImpl(TapoManagement):
         except:
             self.logger.warning("Tapo C200 unable to set home mode")
 
-    def __set_home_mode_c500(self):
+    def set_home_mode_c500(self):
         self.__try_initialize_tapo_c500()
         if self.__tapo_c500 is None:
             return
@@ -76,7 +76,7 @@ class TapoManagementImpl(TapoManagement):
         except:
             self.logger.warning("Tapo C500 unable to set home mode")
 
-    def __set_away_mode_c200(self):
+    def set_away_mode_c200(self):
         self.__try_initialize_tapo_c200()
         if self.__tapo_c200 is None:
             return
@@ -91,7 +91,7 @@ class TapoManagementImpl(TapoManagement):
         except:
             self.logger.warning("Tapo C200 unable to set away mode")
 
-    def __set_away_mode_c500(self):
+    def set_away_mode_c500(self):
         self.__try_initialize_tapo_c500()
         if self.__tapo_c500 is None:
             return

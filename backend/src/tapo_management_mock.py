@@ -7,6 +7,18 @@ class TapoManagementMock(TapoManagement):
     def __init__(self):
         super().__init__()
 
+    def set_home_mode_c200(self):
+        pass
+
+    def set_away_mode_c200(self):
+        pass
+
+    def set_home_mode_c500(self):
+        pass
+
+    def set_away_mode_c500(self):
+        pass
+
     def set_home_mode(self):
         pass
 
