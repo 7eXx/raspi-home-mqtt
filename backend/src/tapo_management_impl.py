@@ -46,10 +46,10 @@ class TapoManagementImpl(TapoManagement):
         self.set_away_mode_c200()
         self.set_away_mode_c500()
 
-    def set_home_mode_c200(self):
+    def set_home_mode_c200(self) -> bool:
         self.__try_initialize_tapo_c200()
         if self.__tapo_c200 is None:
-            return
+            return False
 
         try:
             self.__tapo_c200.setMotionDetection(False)
@@ -58,28 +58,15 @@ class TapoManagementImpl(TapoManagement):
             self.__tapo_c200.setAlarm(False)
             self.__tapo_c200.setNotificationsEnabled(False)
             self.__tapo_c200.setPrivacyMode(True)
+            return True
         except:
             self.logger.warning("Tapo C200 unable to set home mode")
-
-    def set_home_mode_c500(self):
-        self.__try_initialize_tapo_c500()
-        if self.__tapo_c500 is None:
-            return
-
-        try:
-            self.__tapo_c500.setMotionDetection(False)
-            self.__tapo_c500.setPersonDetection(True)
-            self.__tapo_c500.setTamperDetection(True)
-            self.__tapo_c500.setAlarm(False)
-            self.__tapo_c500.setNotificationsEnabled(False)
-            self.__tapo_c500.setPrivacyMode(False)
-        except:
-            self.logger.warning("Tapo C500 unable to set home mode")
+            return False
 
     def set_away_mode_c200(self):
         self.__try_initialize_tapo_c200()
         if self.__tapo_c200 is None:
-            return
+            return False
 
         try:
             self.__tapo_c200.setMotionDetection(True)
@@ -88,13 +75,32 @@ class TapoManagementImpl(TapoManagement):
             self.__tapo_c200.setAlarm(True)
             self.__tapo_c200.setNotificationsEnabled(True)
             self.__tapo_c200.setPrivacyMode(False)
+            return True
         except:
             self.logger.warning("Tapo C200 unable to set away mode")
+            return False
+
+    def set_home_mode_c500(self):
+        self.__try_initialize_tapo_c500()
+        if self.__tapo_c500 is None:
+            return False
+
+        try:
+            self.__tapo_c500.setMotionDetection(False)
+            self.__tapo_c500.setPersonDetection(True)
+            self.__tapo_c500.setTamperDetection(True)
+            self.__tapo_c500.setAlarm(False)
+            self.__tapo_c500.setNotificationsEnabled(False)
+            self.__tapo_c500.setPrivacyMode(False)
+            return True
+        except:
+            self.logger.warning("Tapo C500 unable to set home mode")
+            return False
 
     def set_away_mode_c500(self):
         self.__try_initialize_tapo_c500()
         if self.__tapo_c500 is None:
-            return
+            return False
 
         try:
             self.__tapo_c500.setMotionDetection(False)
@@ -103,5 +109,7 @@ class TapoManagementImpl(TapoManagement):
             self.__tapo_c500.setAlarm(False)
             self.__tapo_c500.setNotificationsEnabled(True)
             self.__tapo_c500.setPrivacyMode(False)
+            return True
         except:
             self.logger.warning("Tapo C500 unable to set away mode")
+            return False

@@ -42,11 +42,61 @@ class ChatHandlerExtended(ChatHandler):
 
         context.bot.send_message(chat_id=update.effective_chat.id, text=mess)
 
+    def __build_message_feature_not_available(self) -> str:
+        return emoji.emojize("Funzionalità non disponibile :prohibited:", use_aliases=True)
+
     def __build_message_from_ecu_state(self, is_ecu_active: bool) -> str:
         if not is_ecu_active:
             return emoji.emojize("Modalità casa impostata :house:", use_aliases=True)
         else:
             return emoji.emojize("Modalità via impostata :police_car_light:", use_aliases=True)
+
+    def __build_message_camera_result_state(self, camera: str, result: bool) -> str:
+        if result:
+            return emoji.emojize(f"Camera {camera} impostata corrattamente :check_mark_button:", use_aliases=True)
+        else:
+            return emoji.emojize(f"Camera {camera} impostazione fallita :cross_mark:", use_aliases=True)
+
+    def c200_home_mode(self, update: Update, context: CallbackContext):
+        self._logger.info("imposto la c200 in modalità casa")
+        if isinstance(self._automation, BaseAutomation):
+            result = self._automation.set_home_away_mode_c200(state=0)
+            mess = self.__build_message_camera_result_state("c200", result)
+        else:
+            mess = self.__build_message_feature_not_available()
+
+        context.bot.send_message(chat_id=update.effective_chat.id, text=mess)
+
+    def c200_away_mode(self, update: Update, context: CallbackContext):
+        self._logger.info("imposto la c200 in modalità via")
+        if isinstance(self._automation, BaseAutomation):
+            result = self._automation.set_home_away_mode_c200(state=1)
+            mess = self.__build_message_camera_result_state("c200", result)
+        else:
+            mess = self.__build_message_feature_not_available()
+
+        context.bot.send_message(chat_id=update.effective_chat.id, text=mess)
+
+    def c500_home_mode(self, update: Update, context: CallbackContext):
+        self._logger.info("imposto la c500 in modalità casa")
+        if isinstance(self._automation, BaseAutomation):
+            result = self._automation.set_home_away_mode_c500(state=0)
+            mess = self.__build_message_camera_result_state("c500", result)
+        else:
+            mess = self.__build_message_feature_not_available()
+
+        context.bot.send_message(chat_id=update.effective_chat.id, text=mess)
+
+    def c500_away_mode(self, update: Update, context: CallbackContext):
+        self._logger.info("imposto la c500 in modalità via")
+        if isinstance(self._automation, BaseAutomation):
+            result = self._automation.set_home_away_mode_c500(state=1)
+            mess = self.__build_message_camera_result_state("c500", result)
+
+        else:
+            mess = self.__build_message_feature_not_available()
+
+        context.bot.send_message(chat_id=update.effective_chat.id, text=mess)
 
     def home_mode(self, update: Update, context: CallbackContext):
         self._logger.info("imposto la modalità casa")
