@@ -23,7 +23,7 @@ class BaseAutomation(Automation, ABC):
 
         return 200 <= response.status_code < 300
 
-    def wake_luigi(self, **kwargs) -> int:
+    def wake_luigi(self, **kwargs) -> bool:
         wake_luigi_lenovo_url = self.__build_trigger_job_url(env.LUIGI_LENOVO_MAC_ADDR)
         response = req.get(wake_luigi_lenovo_url,timeout=self.REQ_TIMEOUT)
 
@@ -64,8 +64,23 @@ class BaseAutomation(Automation, ABC):
 
         return new_state
 
+    def set_home_away_mode_c200(self, **kwargs) -> bool:
+        if bool(int(kwargs['state'])):
+            return self.__tapo_management.set_away_mode_c200()
+        else:
+            return self.__tapo_management.set_home_mode_c200()
+
+    def set_home_away_mode_c500(self, **kwargs) -> bool:
+        if bool(int(kwargs['state'])):
+            return self.__tapo_management.set_away_mode_c500()
+        else:
+            return self.__tapo_management.set_home_mode_c500()
+
     def set_home_away_mode(self, **kwargs) -> bool:
-        return self.__try_set_away_mode() if bool(int(kwargs['state'])) else self.__try_set_home_mode()
+        if bool(int(kwargs['state'])):
+            return self.__try_set_away_mode()
+        else:
+            return self.__try_set_home_mode()
 
     def home_away_mode_toggle(self, **kwargs) -> bool:
         if not self.is_alarm_ecu_active():

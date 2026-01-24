@@ -7,6 +7,22 @@ class TapoManagement(ABC):
         pass
 
     @abstractmethod
+    def set_home_mode_c200(self) -> bool:
+        pass
+
+    @abstractmethod
+    def set_away_mode_c200(self):
+        pass
+
+    @abstractmethod
+    def set_home_mode_c500(self):
+        pass
+
+    @abstractmethod
+    def set_away_mode_c500(self):
+        pass
+
+    @abstractmethod
     def set_home_mode(self):
         pass
 
