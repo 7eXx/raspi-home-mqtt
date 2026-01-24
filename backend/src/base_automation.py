@@ -23,7 +23,7 @@ class BaseAutomation(Automation, ABC):
 
         return 200 <= response.status_code < 300
 
-    def wake_luigi(self, **kwargs) -> int:
+    def wake_luigi(self, **kwargs) -> bool:
         wake_luigi_lenovo_url = self.__build_trigger_job_url(env.LUIGI_LENOVO_MAC_ADDR)
         response = req.get(wake_luigi_lenovo_url,timeout=self.REQ_TIMEOUT)
 
