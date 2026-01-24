@@ -18,7 +18,7 @@ class CommandsExtended(Commands):
         self._add_command(self.C200_HOME_MODE, "imposta la c200 in modalità casa")
         self._add_command(self.C200_AWAY_MODE, "imposta la c200 in modalità via")
         self._add_command(self.C500_HOME_MODE, "imposta la c500 in modalità casa")
-        self._add_command(self.C500_HOME_MODE, "imposta la c500 in modalità via")
+        self._add_command(self.C500_AWAY_MODE, "imposta la c500 in modalità via")
         self._add_command(self.HOME_MODE, "imposta la modalità casa")
         self._add_command(self.AWAY_MODE, "imposta la modalità via")
         self._add_command(self.HOME_AWAY_TOGGLE, "alterna tra modalità casa e via")
