@@ -24,8 +24,8 @@ class TapoManagementImpl(TapoManagement):
 
         try:
             self.__tapo_c200 = Tapo(env.TAPO_C200_IP, env.TAPO_USERNAME, env.TAPO_PASSWORD)
-        except:
-            self.logger.warning("Tapo C200 not reachable")
+        except Exception as e:
+            self.logger.warning("Tapo C200 not reachable %s", e)
             self.__tapo_c200 = None
 
     def __try_initialize_tapo_c500(self):

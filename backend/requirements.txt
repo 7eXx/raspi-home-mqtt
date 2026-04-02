@@ -12,5 +12,5 @@ paho-mqtt~=1.6.1
 gunicorn~=21.2.0
 python-telegram-bot~=13.7
 emoji~=1.6.3
-pytapo==3.3.37
+pytapo==3.2.18
 urllib3==1.26.18
