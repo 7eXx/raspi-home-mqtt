@@ -34,8 +34,10 @@ class TapoManagementImpl(TapoManagement):
 
         try:
             self.__tapo_c500 = Tapo(env.TAPO_C500_IP, env.TAPO_USERNAME, env.TAPO_PASSWORD)
-        except:
-            self.logger.warning("Tapo C500 not reachable")
+        except Exception as e:
+            import traceback
+            self.logger.warning("Tapo C500 not reachable %s", e)
+            self.logger.debug(traceback.format_exc())
             self.__tapo_c500 = None
 
     def set_home_mode(self):
