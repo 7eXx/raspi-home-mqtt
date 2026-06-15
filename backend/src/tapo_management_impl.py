@@ -63,8 +63,10 @@ class TapoManagementImpl(TapoManagement):
             self.__tapo_c200.setNotificationsEnabled(False)
             self.__tapo_c200.setPrivacyMode(True)
             return True
-        except:
+        except Exception as ex:
+            import traceback
             self.logger.warning("Tapo C200 unable to set home mode")
+            self.logger.debug(traceback.format_exc())
             return False
 
     def set_away_mode_c200(self):
@@ -80,8 +82,10 @@ class TapoManagementImpl(TapoManagement):
             self.__tapo_c200.setNotificationsEnabled(True)
             self.__tapo_c200.setPrivacyMode(False)
             return True
-        except:
+        except Exception as ex:
+            import traceback
             self.logger.warning("Tapo C200 unable to set away mode")
+            self.logger.debug(traceback.format_exc())
             return False
 
     def set_home_mode_c500(self):
@@ -97,8 +101,10 @@ class TapoManagementImpl(TapoManagement):
             self.__tapo_c500.setNotificationsEnabled(False)
             self.__tapo_c500.setPrivacyMode(False)
             return True
-        except:
+        except Exception as ex:
+            import traceback
             self.logger.warning("Tapo C500 unable to set home mode")
+            self.logger.debug(traceback.format_exc())
             return False
 
     def set_away_mode_c500(self):
@@ -114,6 +120,8 @@ class TapoManagementImpl(TapoManagement):
             self.__tapo_c500.setNotificationsEnabled(True)
             self.__tapo_c500.setPrivacyMode(False)
             return True
-        except:
+        except Exception as ex:
+            import traceback
             self.logger.warning("Tapo C500 unable to set away mode")
+            self.logger.debug(traceback.format_exc())
             return False
