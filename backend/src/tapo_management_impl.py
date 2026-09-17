@@ -15,8 +15,6 @@ class TapoManagementImpl(TapoManagement):
     def __init__(self):
         super().__init__()
         self.logger = get_console_logger(__name__, env.LOGGING_LEVEL)
-        self.__try_initialize_tapo_c200()
-        self.__try_initialize_tapo_c500()
 
     def __try_initialize_tapo_c200(self):
         try:
