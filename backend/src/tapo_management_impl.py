@@ -15,13 +15,8 @@ class TapoManagementImpl(TapoManagement):
     def __init__(self):
         super().__init__()
         self.logger = get_console_logger(__name__, env.LOGGING_LEVEL)
-        self.__try_initialize_tapo_c200()
-        self.__try_initialize_tapo_c500()
 
     def __try_initialize_tapo_c200(self):
-        if self.__tapo_c200 is not None:
-            return
-
         try:
             self.__tapo_c200 = Tapo(env.TAPO_C200_IP, env.TAPO_USERNAME, env.TAPO_PASSWORD)
         except Exception as e:
@@ -31,9 +26,6 @@ class TapoManagementImpl(TapoManagement):
             self.__tapo_c200 = None
 
     def __try_initialize_tapo_c500(self):
-        if self.__tapo_c500 is not None:
-            return
-
         try:
             self.__tapo_c500 = Tapo(env.TAPO_C500_IP, env.TAPO_USERNAME, env.TAPO_PASSWORD)
         except Exception as e:
