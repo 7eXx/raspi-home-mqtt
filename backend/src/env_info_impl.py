@@ -77,19 +77,29 @@ class EnvironmentInfoUnmarshaller:
         self.json_string = json_string.decode("utf-8")
 
     def unmarshall(self) -> EnvironmentInfo:
-        env_data = json.loads(self.json_string)
+        try:
+            env_data = json.loads(self.json_string)
+        except json.JSONDecodeError:
+            # Payload was received from the device but cannot be converted (e.g. bare `nan`).
+            return self.__create_online_env_info()
         # check if temperature and humidity fields exist
         if "temperature" not in env_data or "humidity" not in env_data:
-            # default env info implementation
-            return EnvironmentInfoImpl()
+            # Device data received, but one of the sensor sections is missing.
+            return self.__create_online_env_info()
 
         temperature = self.__extract_temperature(env_data["temperature"])
         hum_data = self.__extract_humidity(env_data["humidity"])
 
-        environment_info = EnvironmentInfoImpl("online")
-        environment_info._timestamp = DatetimeStringBuilder().now()
+        environment_info = self.__create_online_env_info()
         environment_info.temperature = temperature
         environment_info.humidity = hum_data
+
+        return environment_info
+
+    @staticmethod
+    def __create_online_env_info() -> EnvironmentInfo:
+        environment_info = EnvironmentInfoImpl("online")
+        environment_info._timestamp = DatetimeStringBuilder().now()
 
         return environment_info
 
